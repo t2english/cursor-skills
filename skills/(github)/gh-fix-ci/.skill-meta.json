@@ -1,0 +1,10 @@
+{
+  "name": "gh-fix-ci",
+  "version": "1.0.0",
+  "origin": "openai/skills",
+  "author": "github.com/openai/skills",
+  "license": "MIT",
+  "last_updated": "2026-02-28",
+  "description": "Debug and fix failing GitHub PR checks that run in GitHub Actions.",
+  "requires": ["gh CLI authenticated"]
+}

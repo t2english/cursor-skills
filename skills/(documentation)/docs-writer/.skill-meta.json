@@ -1,0 +1,9 @@
+{
+  "name": "docs-writer",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "tech-leads-club",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-02-28",
+  "description": "Write, review, and edit documentation files with consistent structure, tone, and technical accuracy."
+}

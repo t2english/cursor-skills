@@ -1,0 +1,9 @@
+{
+  "name": "coding-guidelines",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "ale (Karpathy Guidelines)",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-02-28",
+  "description": "Behavioral guidelines to reduce common LLM coding mistakes."
+}

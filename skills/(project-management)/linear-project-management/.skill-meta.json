@@ -1,0 +1,11 @@
+{
+  "name": "linear-project-management",
+  "version": "1.1.0",
+  "origin": "transition2english",
+  "author": "Rafael Pereira",
+  "license": "proprietary",
+  "last_updated": "2026-02-28",
+  "description": "Gestao de projetos e issues no Linear com workflow plan->issues, templates code-agnostic e metodologia de sprints semanais.",
+  "recommends": ["user-linear MCP"],
+  "requires": [".cursor/linear.json no projeto"]
+}

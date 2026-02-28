@@ -1,0 +1,9 @@
+{
+  "name": "security-best-practices",
+  "version": "1.0.0",
+  "origin": "openai/skills",
+  "author": "github.com/openai/skills",
+  "license": "MIT",
+  "last_updated": "2026-02-28",
+  "description": "Perform language and framework specific security best-practice reviews and suggest improvements."
+}

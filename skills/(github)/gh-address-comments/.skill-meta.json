@@ -1,0 +1,10 @@
+{
+  "name": "gh-address-comments",
+  "version": "1.0.0",
+  "origin": "openai/skills",
+  "author": "github.com/openai/skills",
+  "license": "MIT",
+  "last_updated": "2026-02-28",
+  "description": "Address review and issue comments on the open GitHub PR for the current branch.",
+  "requires": ["gh CLI authenticated"]
+}
