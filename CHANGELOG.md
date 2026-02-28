@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.0] - 2026-02-28
+
+### Added
+- **finalize-branch** v1.0.0 (custom T2E): workflow completo para fechar branch com lint, knip, build, test, push, PR, CI, merge
+- Knip dead code check integrado ao pipeline de finalizacao
+
 ## [1.0.0] - 2026-02-28
 
 ### Added

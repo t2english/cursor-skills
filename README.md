@@ -1,6 +1,6 @@
 # Cursor Skills
 
-Repositorio centralizado de Cursor Skills do time **Transition 2 English (T2E)**. Contem 9 skills organizadas em 6 categorias, com script de instalacao automatizado e sistema de backup.
+Repositorio centralizado de Cursor Skills do time **Transition 2 English (T2E)**. Contem 10 skills organizadas em 6 categorias, com script de instalacao automatizado e sistema de backup.
 
 ## Quick Start
 
@@ -22,6 +22,7 @@ git clone https://github.com/transition2english/cursor-skills.git /tmp/cursor-sk
 | **codenavi** | development | Exploracao metodica de codebase com .notebook/ persistente | 1.0.0 | tech-leads-club/felipfr |
 | **tlc-spec-driven** | development | Planejamento em 4 fases: Specify, Design, Tasks, Implement+Validate | 1.0.0 | tech-leads-club/felipfr |
 | **docs-writer** | documentation | Escrita e revisao de documentacao com estilo consistente | 1.0.0 | tech-leads-club |
+| **finalize-branch** | github | Workflow: lint, knip, build, test, push, PR, CI, merge, cleanup | 1.0.0 | T2E (custom) |
 | **gh-fix-ci** | github | Diagnostico e fix de CI no GitHub Actions | 1.0.0 | openai/skills |
 | **gh-address-comments** | github | Resolver comentarios e reviews de PR | 1.0.0 | openai/skills |
 | **learning-opportunities** | learning | Exercicios de aprendizado durante AI-assisted coding | 1.1.0 | Chris Hicks/felipfr |
@@ -36,6 +37,7 @@ Algumas skills referenciam outras ferramentas ou skills:
 |-------|-----------|------|
 | **tlc-spec-driven** | codenavi | Recomendado (exploracao de codebase) |
 | **codenavi** | Context7 MCP | Recomendado (lookup de docs) |
+| **finalize-branch** | `gh` CLI autenticado | Obrigatorio |
 | **gh-fix-ci** | `gh` CLI autenticado | Obrigatorio |
 | **gh-address-comments** | `gh` CLI autenticado | Obrigatorio |
 | **linear-project-management** | `user-linear` MCP + `.cursor/linear.json` | Obrigatorio |
@@ -58,7 +60,7 @@ Algumas skills referenciam outras ferramentas ou skills:
 
 ```bash
 ./install.sh --category development    # coding-guidelines, codenavi, tlc-spec-driven
-./install.sh --category github         # gh-fix-ci, gh-address-comments
+./install.sh --category github         # finalize-branch, gh-fix-ci, gh-address-comments
 ./install.sh --category security       # security-best-practices
 ```
 
@@ -208,6 +210,7 @@ As skills abaixo sao distribuidas sob licenca [Creative Commons Attribution 4.0]
 
 | Skill | Autor |
 |-------|-------|
+| finalize-branch | Rafael Pereira / T2E |
 | linear-project-management | Rafael Pereira / T2E |
 
 ### Skills NAO incluidas
