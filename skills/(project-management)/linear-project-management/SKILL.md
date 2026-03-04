@@ -11,7 +11,8 @@ Skill para gestao de projetos no Linear via MCP (server: `user-linear`).
 
 - **SEMPRE** ler `.cursor/linear.json` antes de qualquer operacao; usar `team` e `project` (e `teamId`/`projectId` se existirem) em todas as chamadas.
 - Ao **executar um plano aprovado**: criar **milestone** do plano com **targetDate = data atual** (hoje em ISO); usar team/projeto do config; criar 1 issue por to-do associada ao milestone; ao concluir cada to-do, **validar** e so entao mover para **Done** + comentario resumo.
-- **Configurar projeto**: quando o usuario pedir, seguir o fluxo em [CONFIGURAR_PROJETO.md](CONFIGURAR_PROJETO.md) (listar times, projetos, aplicar labels, gravar linear.json).
+- **Configurar projeto**: quando o usuario pedir, seguir o fluxo em [CONFIGURAR_PROJETO.md](CONFIGURAR_PROJETO.md). **Nunca assumir** time ou projeto: listar times/projetos e **perguntar ao usuario** qual time e qual projeto usar. Se nao conseguir relacionar o repo a um time/projeto existente ou houver duvida no setup inicial, **perguntar ou instruir** como proceder (ex.: "Qual time deste repositório?", "O time X nao existe — crie em Linear > Settings > Teams e repita").
+- **Quando nao souber ou tiver duvidas** sobre setup inicial (time, projeto, primeiro uso do Linear no repo), **pergunte ao usuario** ou **instrua** o que fazer para obter o resultado desejado; nao invente valores.
 
 ## Passo 1: Obter Contexto do Projeto
 
@@ -19,18 +20,20 @@ Skill para gestao de projetos no Linear via MCP (server: `user-linear`).
 
 ```json
 {
-  "team": "OK IA",
-  "teamId": "<uuid ou omitir se não disponível>",
-  "project": "Nome do Projeto",
-  "projectId": "<uuid ou omitir se não disponível>"
+  "team": "<nome exato do time no Linear>",
+  "teamId": "<uuid do time>",
+  "project": "<nome do projeto>",
+  "projectId": "<uuid do projeto>"
 }
 ```
 
+Use o **nome exato** do time e do projeto como aparecem no Linear (ex.: "ISP AI Stater", "OK IA"). Nunca assuma um valor por padrao; se o arquivo nao existir, siga CONFIGURAR_PROJETO.md e pergunte ao usuario.
+
 Use `team` e `project` como filtros diretos em TODAS as chamadas MCP. Quando for necessario **ID** (ex.: `list_cycles`), use `teamId` do config se existir; senao use `team` (nome). Idem para `projectId`/`project`.
 
-**Excecao:** Nunca chame `list_teams` ou `list_projects` a menos que (a) explicitamente solicitado pelo usuario, ou (b) o arquivo **nao existir** e o usuario quiser **configurar o Linear** para o repo. Nesse caso (b), use `list_teams` e `list_projects` para guiar a escolha e entao crie o arquivo com os quatro campos (`team`, `teamId`, `project`, `projectId`).
+**Excecao:** Nunca chame `list_teams` ou `list_projects` a menos que (a) explicitamente solicitado pelo usuario, ou (b) o arquivo **nao existir** e o usuario quiser **configurar o Linear** para o repo. Nesse caso (b), use `list_teams` e `list_projects` para **perguntar** ao usuario qual time e qual projeto usar (exibir a lista e pedir escolha); **nunca assuma** um time ou projeto por padrao. Depois crie o arquivo com os quatro campos (`team`, `teamId`, `project`, `projectId`).
 
-Se o arquivo nao existir e o usuario nao pedir configuracao, pergunte qual team e project usar e sugira criar o `.cursor/linear.json` (ou ofereca o fluxo de configuracao guiada acima).
+Se o arquivo nao existir e o usuario nao pedir configuracao, **pergunte** qual team e project usar e sugira criar o `.cursor/linear.json` (ou ofereca o fluxo de configuracao guiada em CONFIGURAR_PROJETO.md). Se nao souber ou tiver duvida sobre qual time/projeto relacionar a este repo, **pergunte ou instrua** o usuario como proceder.
 
 ## Passo 2: Operacoes Disponiveis
 

@@ -1,6 +1,6 @@
 {
-  "team": "OK IA",
-  "teamId": "<uuid do time ou omitir se não disponível>",
-  "project": "Nome do Projeto",
-  "projectId": "<uuid do projeto ou omitir se não disponível>"
+  "team": "<nome exato do time no Linear>",
+  "teamId": "<uuid do time>",
+  "project": "<nome do projeto>",
+  "projectId": "<uuid do projeto>"
 }
