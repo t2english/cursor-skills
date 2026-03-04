@@ -1,11 +1,17 @@
 ---
 name: linear-project-management
-description: Gerencia projetos e issues no Linear via MCP. Use quando o usuario pedir para criar, consultar, atualizar ou listar issues, sprints, projetos ou qualquer operacao relacionada ao Linear, gestao de tarefas, backlog ou sprint planning. Tambem use quando um plano (plan file) for aprovado para criar issues automaticamente no Linear antes da execucao.
+description: Gerencia projetos e issues no Linear via MCP. Use para criar, consultar, atualizar ou listar issues/sprints/projetos e para gestao de tarefas ou sprint planning. Ao executar plano aprovado, sempre criar milestone com data atual, usar team/projeto do linear.json e validar e encerrar cada issue ao concluir.
 ---
 
 # Linear Project Management
 
 Skill para gestao de projetos no Linear via MCP (server: `user-linear`).
+
+## Resumo (nao pular)
+
+- **SEMPRE** ler `.cursor/linear.json` antes de qualquer operacao; usar `team` e `project` (e `teamId`/`projectId` se existirem) em todas as chamadas.
+- Ao **executar um plano aprovado**: criar **milestone** do plano com **targetDate = data atual** (hoje em ISO); usar team/projeto do config; criar 1 issue por to-do associada ao milestone; ao concluir cada to-do, **validar** e so entao mover para **Done** + comentario resumo.
+- **Configurar projeto**: quando o usuario pedir, seguir o fluxo em [CONFIGURAR_PROJETO.md](CONFIGURAR_PROJETO.md) (listar times, projetos, aplicar labels, gravar linear.json).
 
 ## Passo 1: Obter Contexto do Projeto
 
@@ -134,35 +140,7 @@ CallMcpTool(server: "user-linear", toolName: "list_milestones", arguments: {
 
 ## Configurar Projeto Linear
 
-Use quando o usuario pedir "configurar projeto Linear", "aplicar padrao Linear", "configurar Linear neste repo" ou "setup Linear".
-
-### Gatilhos
-
-- "configurar projeto Linear", "aplicar padrao Linear", "configurar Linear neste repo", "setup Linear"
-
-### Sequencia
-
-1. **Listar times**  
-   Chamar `list_teams` e exibir lista (nome + id). Usuario escolhe o time (por nome ou indice). Guardar `team` e `teamId`.
-
-2. **Projeto**  
-   Chamar `list_projects` (ou listar e filtrar pelo time escolhido). Usuario escolhe um projeto existente **ou** informa nome para **criar** um novo.  
-   - Se criar: `save_project(name, team)` e guardar `project` e `projectId` da resposta. Opcionalmente perguntar se deseja definir `startDate` e `targetDate` (ISO) para controle de agenda.  
-   - Se escolher existente: guardar `project` e `projectId`.
-
-3. **Aplicar padrao de labels**  
-   Fonte: [methodology.md §2](methodology.md) (Tipo: bug, feature, improvement, chore, spike; Area: backend, frontend, database, infra, docs; Impacto: breaking, security, performance, ux).  
-   Chamar `list_issue_labels` (por time ou workspace) para obter labels ja existentes. Para cada label do padrao que **nao** existir: `create_issue_label(name, parent?, teamId?, color?)`. Nao duplicar.
-
-4. **Gravar `.cursor/linear.json` no repo**  
-   Escrever/atualizar na raiz do workspace: `team`, `teamId` (se tiver), `project`, `projectId` (se tiver).
-
-5. **Resumo**  
-   Informar: time e projeto configurados, quantas labels foram criadas, caminho do `linear.json`.
-
-### Limitacoes
-
-- Criar **time** nao e possivel via MCP (só `list_teams`/`get_team`). Ativar **cycles** e ajustar **workflow states** continua na UI do Linear (uma vez por time).
+Quando o usuario pedir "configurar projeto Linear", "aplicar padrao Linear", "configurar Linear neste repo" ou "setup Linear", siga o fluxo completo em **[CONFIGURAR_PROJETO.md](CONFIGURAR_PROJETO.md)** (listar times, listar/escolher ou criar projeto, aplicar padrao de labels, gravar `.cursor/linear.json`).
 
 ## Regras de Escrita Code-Agnostic
 
@@ -268,7 +246,7 @@ Use os campos de data do MCP para controle de agenda e estimativas:
 | Nivel | Ferramenta | Campos | Uso |
 |-------|------------|--------|-----|
 | **Projeto** | `save_project` | `startDate`, `targetDate` (ISO) | Envelope de tempo do projeto; visivel no roadmap. No fluxo "Configurar projeto", ao criar projeto, opcionalmente preencher. |
-| **Milestone** | `save_milestone` | `targetDate` (ISO, opcional) | Prazo da entrega/plano. No workflow plano→issues, ao criar o milestone do plano, perguntar ou usar data se o plano tiver. |
+| **Milestone** | `save_milestone` | `targetDate` (ISO, opcional) | Prazo da entrega/plano. No workflow plano→issues, ao criar o milestone do plano, usar **data atual** (hoje em ISO) por padrao. |
 | **Issue** | `save_issue` | `dueDate` (ISO), `estimate` (pontos) | `dueDate` para prazos especificos (releases, dependencias externas); `estimate` para capacidade do sprint (Fibonacci). |
 
 Regras curtas: **Projeto** = periodo total; **Milestone** = meta da entrega; **Issue** = prazo pontual + estimativa para planning.
@@ -294,6 +272,12 @@ Ao trabalhar em uma issue, registre progresso via comentarios:
 
 Quando o usuario aprova um plano (plan file do Cursor), o agente deve **automaticamente criar issues no Linear** antes de comecar a executar. Este e o fluxo padrao para qualquer plano com 2+ tarefas.
 
+### Comportamento padrao (obrigatorio)
+
+- **Milestone:** Sempre criar um milestone para o plano. Nome = titulo do plano (ou do plan file). **targetDate = data atual** (hoje em ISO, ex.: `2025-03-03`), salvo se o plano ou o usuario indicar outra data.
+- **Team e projeto:** Sempre usar `team` e `project` (e `teamId`/`projectId` se existirem) do `.cursor/linear.json`. Nao perguntar; usar o config do repo.
+- **Ao concluir cada issue:** Antes de mover para Done, **validar** que a tarefa esta concluida (criterios de aceite atendidos ou implementacao verificada/testes passando). So entao mover a issue para **Done** e adicionar **comentario** com resumo do que foi feito.
+
 ### Gatilho
 
 O workflow e ativado quando:
@@ -305,7 +289,7 @@ O workflow e ativado quando:
 ```
 1. Ler .cursor/linear.json (team, project, teamId se existir)
 2. Ler plan file e extrair todos os to-dos
-3. Criar milestone do plano: save_milestone(project, name: "<titulo do plano>", targetDate?: "<ISO opcional>")
+3. Criar milestone do plano: save_milestone(project, name: "<titulo do plano>", targetDate: "<data atual em ISO, ex. 2025-03-03>"). Usar sempre a data do dia, salvo se o plano ou o usuario indicar outra.
 4. Obter ciclo atual (opcional): list_cycles(teamId ou team, type: "current"). Se retornar ciclo, usar em cada save_issue.
 5. Criar issues no Linear (1 issue por to-do)
    - Titulo: conteudo do to-do
@@ -318,7 +302,7 @@ O workflow e ativado quando:
 6. Reportar ao usuario: lista de issues criadas com IDs
 7. Mover primeira issue para In Progress
 8. Executar sequencialmente, atualizando status no Linear
-9. Ao concluir cada to-do: mover issue para Done + comentar resumo
+9. Ao concluir cada to-do: (1) Validar que a tarefa esta concluida (criterios atendidos ou verificacao rapida); (2) Mover issue para Done; (3) Comentar resumo do que foi feito.
 ```
 
 **Associar ao sprint atual:** Para colocar as issues no ciclo/sprint corrente, chame `list_cycles(teamId: config.teamId ou team: config.team, type: "current")`. Se houver ciclo ativo, passe o id ou nome em cada `save_issue(..., cycle: "<id ou nome do ciclo>")`.
@@ -353,10 +337,11 @@ Plan: "Configurar monitoramento do sistema"
 Durante a execucao de cada issue:
 - Mover para **In Progress** ao iniciar
 - Adicionar comentario de progresso se a tarefa demorar
-- Mover para **Done** ao concluir, com comentario resumindo o que foi feito
+- **Antes de mover para Done:** Validar que a tarefa esta concluida (criterios de aceite ou verificacao). Em seguida mover para **Done** e adicionar comentario com resumo do que foi feito.
 - Se encontrar bloqueio, registrar como comentario e pular para a proxima
 
 ## Referencia Completa
 
+- Fluxo configurar projeto: [CONFIGURAR_PROJETO.md](CONFIGURAR_PROJETO.md)
 - Templates detalhados: [templates.md](templates.md)
 - Metodologia completa (labels, sprints, escala): [methodology.md](methodology.md)
