@@ -77,3 +77,4 @@ git branch -d <branch-name>   # delete local if not auto-deleted
 - NEVER force push to main
 - If CI fails, fix on the same branch, push again, CI re-runs automatically
 - Lockfile sync issues: run `pnpm install` from repo root and commit the updated lockfile
+- **Se nao tiver certeza** do comando, do package manager ou do contexto (repo, branch base), **pergunte ao usuario** antes de executar. Adapte os passos ao projeto (ex.: npm/yarn em vez de pnpm).

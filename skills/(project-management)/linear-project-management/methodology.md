@@ -8,9 +8,9 @@ Guia completo de referencia para a equipe.
 
 ### Team
 
-Um unico team **"OK IA"** (key: OKIA) para toda a equipe de engenharia.
+O time de cada repositório é definido no `.cursor/linear.json` (campo `team` e `teamId`). Ao **configurar** o Linear num repo, o agente deve **listar times** e **perguntar ao usuário** qual time usar; nunca assumir um time por padrão. Exemplos de times no workspace: OK IA, ISP AI Stater, Transition2English, SAAS OKIA — o nome exato vem do Linear.
 
-**Por que nao criar times por area tecnica (DB, Frontend, Backend):**
+**Por que não criar times por área técnica (DB, Frontend, Backend):**
 - Com equipe pequena (3-7 pessoas), todos tocam multiplas areas
 - Times por area criam silos artificiais e dependencias cross-team em cada issue
 - Overhead de coordenacao cresce exponencialmente com o numero de times
@@ -26,6 +26,7 @@ Cada produto ou iniciativa = 1 Project no Linear. Projetos ativos:
 | Video Studio Framework | Pipeline de producao de video marketing |
 | Transition2English | Sistema de aprendizado de ingles com IA |
 | ISP AI | IA para provedores de internet |
+| ISPAI Dashboards N1 | Dashboards e métricas para provedores (ISPAI) |
 | Sultel Telecom | Projeto cliente Sultel |
 | Tech Provider | Instancia WhatsApp + Chatwoot |
 
@@ -109,7 +110,7 @@ Escala de Fibonacci para story points:
 
 ### Configuracao Inicial (uma vez, via Linear UI)
 
-Acesse **Team Settings > Cycles** do team "OK IA" e configure:
+Acesse **Team Settings > Cycles** do time escolhido (ex.: OK IA, ISP AI Stater) e configure:
 1. **Enable cycles**: On
 2. **Cycle duration**: 1 week
 3. **Starting day**: Monday (segunda-feira)
@@ -242,7 +243,7 @@ Adapte esta tabela para cada projeto. Mantenha-a atualizada conforme o dominio e
 
 ### 3-7 pessoas (atual)
 
-- 1 Team: "OK IA"
+- Times definidos por repo em `.cursor/linear.json` (ex.: OK IA, ISP AI Stater); na configuracao, perguntar ao usuario qual time.
 - Projects: 1 por produto
 - Labels: Tipo + Area + Impacto
 - Sprints semanais
