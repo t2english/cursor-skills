@@ -14,13 +14,17 @@ Skill para gestao de projetos no Linear via MCP (server: `user-linear`).
 ```json
 {
   "team": "OK IA",
-  "project": "Nome do Projeto"
+  "teamId": "<uuid ou omitir se não disponível>",
+  "project": "Nome do Projeto",
+  "projectId": "<uuid ou omitir se não disponível>"
 }
 ```
 
-Use `team` e `project` como filtros diretos em TODAS as chamadas MCP. Nunca chame `list_teams` ou `list_projects` a menos que explicitamente solicitado.
+Use `team` e `project` como filtros diretos em TODAS as chamadas MCP. Quando for necessario **ID** (ex.: `list_cycles`), use `teamId` do config se existir; senao use `team` (nome). Idem para `projectId`/`project`.
 
-Se o arquivo nao existir, pergunte ao usuario qual team e project usar. Sugira criar o `.cursor/linear.json`.
+**Excecao:** Nunca chame `list_teams` ou `list_projects` a menos que (a) explicitamente solicitado pelo usuario, ou (b) o arquivo **nao existir** e o usuario quiser **configurar o Linear** para o repo. Nesse caso (b), use `list_teams` e `list_projects` para guiar a escolha e entao crie o arquivo com os quatro campos (`team`, `teamId`, `project`, `projectId`).
+
+Se o arquivo nao existir e o usuario nao pedir configuracao, pergunte qual team e project usar e sugira criar o `.cursor/linear.json` (ou ofereca o fluxo de configuracao guiada acima).
 
 ## Passo 2: Operacoes Disponiveis
 
@@ -70,7 +74,8 @@ CallMcpTool(server: "user-linear", toolName: "save_issue", arguments: {
   priority: 3,  // 1=Urgent, 2=High, 3=Normal, 4=Low
   labels: ["feature", "backend"],  // tipo + area
   assignee: "me",  // ou null para nao atribuir
-  estimate: 3  // pontos fibonacci: 1, 2, 3, 5, 8
+  estimate: 3,  // pontos fibonacci: 1, 2, 3, 5, 8
+  // Opcionais: cycle: "<id ou nome do ciclo>", milestone: "<nome ou id>", dueDate: "<ISO>"
 })
 ```
 
@@ -110,9 +115,11 @@ CallMcpTool(server: "user-linear", toolName: "save_issue", arguments: {
 
 ### Consultar Ciclos/Sprints
 
+Se `linear.json` tiver `teamId`, use-o; senao use `team` (nome):
+
 ```
 CallMcpTool(server: "user-linear", toolName: "list_cycles", arguments: {
-  teamId: "<team-id>",
+  teamId: "<teamId do config se existir>",  // ou team: "<team do config>"
   type: "current"  // current | previous | next
 })
 ```
@@ -124,6 +131,38 @@ CallMcpTool(server: "user-linear", toolName: "list_milestones", arguments: {
   project: "<project do config>"
 })
 ```
+
+## Configurar Projeto Linear
+
+Use quando o usuario pedir "configurar projeto Linear", "aplicar padrao Linear", "configurar Linear neste repo" ou "setup Linear".
+
+### Gatilhos
+
+- "configurar projeto Linear", "aplicar padrao Linear", "configurar Linear neste repo", "setup Linear"
+
+### Sequencia
+
+1. **Listar times**  
+   Chamar `list_teams` e exibir lista (nome + id). Usuario escolhe o time (por nome ou indice). Guardar `team` e `teamId`.
+
+2. **Projeto**  
+   Chamar `list_projects` (ou listar e filtrar pelo time escolhido). Usuario escolhe um projeto existente **ou** informa nome para **criar** um novo.  
+   - Se criar: `save_project(name, team)` e guardar `project` e `projectId` da resposta. Opcionalmente perguntar se deseja definir `startDate` e `targetDate` (ISO) para controle de agenda.  
+   - Se escolher existente: guardar `project` e `projectId`.
+
+3. **Aplicar padrao de labels**  
+   Fonte: [methodology.md §2](methodology.md) (Tipo: bug, feature, improvement, chore, spike; Area: backend, frontend, database, infra, docs; Impacto: breaking, security, performance, ux).  
+   Chamar `list_issue_labels` (por time ou workspace) para obter labels ja existentes. Para cada label do padrao que **nao** existir: `create_issue_label(name, parent?, teamId?, color?)`. Nao duplicar.
+
+4. **Gravar `.cursor/linear.json` no repo**  
+   Escrever/atualizar na raiz do workspace: `team`, `teamId` (se tiver), `project`, `projectId` (se tiver).
+
+5. **Resumo**  
+   Informar: time e projeto configurados, quantas labels foram criadas, caminho do `linear.json`.
+
+### Limitacoes
+
+- Criar **time** nao e possivel via MCP (só `list_teams`/`get_team`). Ativar **cycles** e ajustar **workflow states** continua na UI do Linear (uma vez por time).
 
 ## Regras de Escrita Code-Agnostic
 
@@ -222,6 +261,18 @@ Backlog → Todo → In Progress → In Review → Done
 - **Done**: Merged, testado e verificado
 - **Canceled**: Descartada (registrar motivo em comentario)
 
+## Controle de Prazos e Agendas
+
+Use os campos de data do MCP para controle de agenda e estimativas:
+
+| Nivel | Ferramenta | Campos | Uso |
+|-------|------------|--------|-----|
+| **Projeto** | `save_project` | `startDate`, `targetDate` (ISO) | Envelope de tempo do projeto; visivel no roadmap. No fluxo "Configurar projeto", ao criar projeto, opcionalmente preencher. |
+| **Milestone** | `save_milestone` | `targetDate` (ISO, opcional) | Prazo da entrega/plano. No workflow plano→issues, ao criar o milestone do plano, perguntar ou usar data se o plano tiver. |
+| **Issue** | `save_issue` | `dueDate` (ISO), `estimate` (pontos) | `dueDate` para prazos especificos (releases, dependencias externas); `estimate` para capacidade do sprint (Fibonacci). |
+
+Regras curtas: **Projeto** = periodo total; **Milestone** = meta da entrega; **Issue** = prazo pontual + estimativa para planning.
+
 ## Padrao de Comentarios de Progresso
 
 Ao trabalhar em uma issue, registre progresso via comentarios:
@@ -252,25 +303,32 @@ O workflow e ativado quando:
 ### Sequencia de Execucao
 
 ```
-1. Ler .cursor/linear.json (team + project)
+1. Ler .cursor/linear.json (team, project, teamId se existir)
 2. Ler plan file e extrair todos os to-dos
-3. Criar issues no Linear (1 issue por to-do)
+3. Criar milestone do plano: save_milestone(project, name: "<titulo do plano>", targetDate?: "<ISO opcional>")
+4. Obter ciclo atual (opcional): list_cycles(teamId ou team, type: "current"). Se retornar ciclo, usar em cada save_issue.
+5. Criar issues no Linear (1 issue por to-do)
    - Titulo: conteudo do to-do
+   - milestone: "<nome ou id do milestone criado no passo 3>"
+   - cycle: id ou nome do ciclo (se passo 4 retornou ciclo; senao omitir)
    - Labels: inferir tipo + area pelo contexto
    - Prioridade: 3 (Normal) padrao, 2 (High) se urgente
    - Estimativa: inferir pela complexidade (1-5 pts)
    - Estado: Backlog
-4. Reportar ao usuario: lista de issues criadas com IDs
-5. Mover primeira issue para In Progress
-6. Executar sequencialmente, atualizando status no Linear
-7. Ao concluir cada to-do: mover issue para Done + comentar resumo
+6. Reportar ao usuario: lista de issues criadas com IDs
+7. Mover primeira issue para In Progress
+8. Executar sequencialmente, atualizando status no Linear
+9. Ao concluir cada to-do: mover issue para Done + comentar resumo
 ```
+
+**Associar ao sprint atual:** Para colocar as issues no ciclo/sprint corrente, chame `list_cycles(teamId: config.teamId ou team: config.team, type: "current")`. Se houver ciclo ativo, passe o id ou nome em cada `save_issue(..., cycle: "<id ou nome do ciclo>")`.
 
 ### Regras do Workflow
 
+- **Milestone do plano:** Sempre criar um milestone para o plano (passo 3) e associar todas as issues a ele (`milestone` em `save_issue`).
 - **Descricao code-agnostic**: A descricao da issue deve seguir os templates (comportamento/dominio, sem referenciar arquivos)
 - **Issue pai opcional**: Se o plano tem um titulo claro (ex: "Migrar autenticacao"), criar uma issue pai e as demais como sub-issues
-- **Sprint atual**: Se houver ciclo ativo, associar as issues ao ciclo corrente
+- **Sprint atual**: Se houver ciclo ativo, associar as issues ao ciclo corrente (ver passo 4-5 acima)
 - **Feedback continuo**: Apos criar todas as issues, listar os IDs para o usuario antes de comecar a executar
 - **Falha graceful**: Se o MCP Linear nao estiver disponivel, continuar a execucao normalmente (apenas sem rastreamento no Linear)
 

@@ -1,4 +1,6 @@
 {
   "team": "OK IA",
-  "project": "Nome do Projeto"
+  "teamId": "<uuid do time ou omitir se não disponível>",
+  "project": "Nome do Projeto",
+  "projectId": "<uuid do projeto ou omitir se não disponível>"
 }
