@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.3.0] - 2026-03-12
+
+### Enhanced
+- **Todas as 10 skills**: descriptions reescritas com abordagem "pushy" para combater under-triggering
+  - Cenarios de trigger mais explicitos e agressivos
+  - Frases "Make sure to use this skill whenever..." para expandir alem dos casos obvios
+  - Mais trigger phrases em linguagem natural e variada
+- **create-skill** (Cursor built-in): integrado principios da [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) da Anthropic
+  - Novo principio "Explain the Why" — instrucoes devem explicar raciocinio, nao empilhar MUSTs
+  - Guia de "pushy descriptions" com exemplos concretos
+  - Phase 5: Validation with Test Prompts (test prompts + should/should-not trigger queries)
+  - Checklist atualizado com novos criterios de qualidade e validacao
+
+### Added
+- `templates/skill-eval-template.md`: template para avaliar skills com test prompts, trigger accuracy, review qualitativo e notas de iteracao
+
+## [1.2.0] - 2026-03-12
+
+### Enhanced
+- **codenavi** v1.1.0: integrado conceitos do [napkin](https://github.com/blader/napkin) skill
+  - Nova categoria `corrections/` no `.notebook/` para rastrear erros do agente com padrao "Do instead"
+  - Regras de curacao: re-priorizar, mesclar duplicatas, remover obsoletos, cap de ~15 corrections
+  - Graduacao de corrections para `patterns/` ou `gotchas/` quando aplicam de forma ampla
+  - Padrao "Do instead" obrigatorio em gotchas e corrections (acao concreta, nao principio vago)
+  - Consistency Contract atualizado (11 itens, inclui auto-registro de erros)
+
 ## [1.1.0] - 2026-02-28
 
 ### Added

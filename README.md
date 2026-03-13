@@ -19,14 +19,14 @@ git clone https://github.com/transition2english/cursor-skills.git /tmp/cursor-sk
 | Skill | Categoria | Descricao | Versao | Origem |
 |-------|-----------|-----------|--------|--------|
 | **coding-guidelines** | development | Diretrizes anti-overengineering (Karpathy Guidelines) | 1.0.0 | tech-leads-club |
-| **codenavi** | development | Exploracao metodica de codebase com .notebook/ persistente | 1.0.0 | tech-leads-club/felipfr |
-| **tlc-spec-driven** | development | Planejamento em 4 fases: Specify, Design, Tasks, Implement+Validate | 1.0.0 | tech-leads-club/felipfr |
+| **code-navi** | development | Exploracao metodica de codebase com .notebook/ persistente | 1.1.0 | tech-leads-club/felipfr |
+| **spec-driven** | development | Planejamento em 4 fases: Specify, Design, Tasks, Implement+Validate | 1.0.0 | tech-leads-club/felipfr |
 | **docs-writer** | documentation | Escrita e revisao de documentacao com estilo consistente | 1.0.0 | tech-leads-club |
 | **finalize-branch** | github | Workflow: lint, knip, build, test, push, PR, CI, merge, cleanup | 1.0.0 | T2E (custom) |
 | **gh-fix-ci** | github | Diagnostico e fix de CI no GitHub Actions | 1.0.0 | openai/skills |
 | **gh-address-comments** | github | Resolver comentarios e reviews de PR | 1.0.0 | openai/skills |
 | **learning-opportunities** | learning | Exercicios de aprendizado durante AI-assisted coding | 1.1.0 | Chris Hicks/felipfr |
-| **linear-project-management** | project-management | Gestao de projetos no Linear: plan→issues, sprints, templates | 1.1.0 | T2E (custom) |
+| **linear-project-management** | project-management | Gestao de projetos no Linear: plan→issues, sprints, templates | 1.2.0 | T2E (custom) |
 | **security-best-practices** | security | Revisao de seguranca para Python, JS/TS, Go | 1.0.0 | openai/skills |
 
 ## Dependencias entre Skills
@@ -35,8 +35,8 @@ Algumas skills referenciam outras ferramentas ou skills:
 
 | Skill | Depende de | Tipo |
 |-------|-----------|------|
-| **tlc-spec-driven** | codenavi | Recomendado (exploracao de codebase) |
-| **codenavi** | Context7 MCP | Recomendado (lookup de docs) |
+| **spec-driven** | code-navi | Recomendado (exploracao de codebase) |
+| **code-navi** | Context7 MCP | Recomendado (lookup de docs) |
 | **finalize-branch** | `gh` CLI autenticado | Obrigatorio |
 | **gh-fix-ci** | `gh` CLI autenticado | Obrigatorio |
 | **gh-address-comments** | `gh` CLI autenticado | Obrigatorio |
@@ -53,13 +53,13 @@ Algumas skills referenciam outras ferramentas ou skills:
 ### Instalar skills especificas
 
 ```bash
-./install.sh --skills codenavi,coding-guidelines,linear-project-management
+./install.sh --skills code-navi,coding-guidelines,linear-project-management
 ```
 
 ### Instalar por categoria
 
 ```bash
-./install.sh --category development    # coding-guidelines, codenavi, tlc-spec-driven
+./install.sh --category development    # code-navi, coding-guidelines, spec-driven
 ./install.sh --category github         # finalize-branch, gh-fix-ci, gh-address-comments
 ./install.sh --category security       # security-best-practices
 ```
@@ -77,7 +77,7 @@ Puxa as alteracoes mais recentes do repositorio e re-copia apenas as skills ja i
 ### Remover uma skill
 
 ```bash
-./install.sh --remove codenavi
+./install.sh --remove code-navi
 ```
 
 ### Listar skills e status
@@ -128,14 +128,14 @@ O script pergunta o nome do projeto e cria `.cursor/linear.json`. Se o arquivo j
 3. **Executar** → Agent implementa seguindo as issues criadas
 4. **Fechar** → Issues sao marcadas como done ao completar
 
-Ver detalhes completos em `skills/(project-management)/linear-project-management/methodology.md`.
+Ver detalhes completos em `skills/project-management/linear-project-management/methodology.md`.
 
 ## Adicionando/Modificando Skills
 
 ### Estrutura de uma skill
 
 ```
-skills/(categoria)/nome-da-skill/
+skills/categoria/nome-da-skill/
 ├── SKILL.md              # Obrigatorio: instrucoes da skill
 ├── .skill-meta.json      # Obrigatorio: metadados (nome, versao, origem, licenca)
 ├── references/           # Opcional: arquivos de referencia
@@ -162,7 +162,7 @@ skills/(categoria)/nome-da-skill/
 
 ### Como adicionar uma nova skill
 
-1. Criar diretorio em `skills/(categoria)/nome-da-skill/`
+1. Criar diretorio em `skills/categoria/nome-da-skill/`
 2. Adicionar `SKILL.md` com instrucoes completas
 3. Adicionar `.skill-meta.json` com metadados
 4. Opcionalmente adicionar `references/`, `templates/`, `scripts/`
@@ -182,7 +182,7 @@ Estrutura do time:
 - 1 Trainee Developer — features e testes com supervisao
 - 1 Estagiario — tarefas guiadas com pair programming
 
-Capacidade de sprint: ~30 story points/semana (metodologia em `skills/(project-management)/linear-project-management/methodology.md`).
+Capacidade de sprint: ~30 story points/semana (metodologia em `skills/project-management/linear-project-management/methodology.md`).
 
 ## Creditos e Atribuicao
 
@@ -192,8 +192,8 @@ As skills abaixo sao distribuidas sob licenca [Creative Commons Attribution 4.0]
 
 | Skill | Autor original |
 |-------|---------------|
-| codenavi | [Felipe Rodrigues](https://github.com/felipfr) |
-| tlc-spec-driven | [Felipe Rodrigues](https://github.com/felipfr) |
+| code-navi | [Felipe Rodrigues](https://github.com/felipfr) |
+| spec-driven | [Felipe Rodrigues](https://github.com/felipfr) |
 | learning-opportunities | Chris Hicks (original), [Felipe Rodrigues](https://github.com/felipfr) (modified) |
 | coding-guidelines | ale (Karpathy Guidelines) |
 | docs-writer | [tech-leads-club](https://github.com/felipfr/tech-leads-club-cursor-skills) |

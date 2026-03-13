@@ -2,5 +2,11 @@
   "team": "<nome exato do time no Linear>",
   "teamId": "<uuid do time>",
   "project": "<nome do projeto>",
-  "projectId": "<uuid do projeto>"
+  "projectId": "<uuid do projeto>",
+  "autoSync": {
+    "tlcToLinear": true,
+    "linearOnBranch": true,
+    "sprintPlanning": true
+  },
+  "branchPattern": "(?:OKIA-)(\\d+)"
 }

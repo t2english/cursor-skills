@@ -1,0 +1,11 @@
+{
+  "name": "linear-project-management",
+  "version": "1.2.0",
+  "origin": "transition2english",
+  "author": "Rafael Pereira",
+  "license": "proprietary",
+  "last_updated": "2026-03-03",
+  "description": "Gestao de projetos e issues no Linear: configurar projeto (listar times/projetos, aplicar labels, linear.json com teamId/projectId), workflow plan->issues com milestone e cycle, controle de prazos/agendas, templates code-agnostic e metodologia de sprints.",
+  "recommends": ["user-linear MCP"],
+  "requires": [".cursor/linear.json no projeto"]
+}

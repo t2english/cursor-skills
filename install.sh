@@ -61,14 +61,14 @@ get_skill_category() {
   if [[ -n "$skill_path" ]]; then
     local cat_dir
     cat_dir="$(basename "$(dirname "$skill_path")")"
-    echo "${cat_dir//[()]/}"
+    echo "$cat_dir"
   fi
 }
 
 get_category_skills() {
   local category="$1"
   local skills=()
-  local cat_dir="$SKILLS_SRC/($category)"
+  local cat_dir="$SKILLS_SRC/$category"
   if [[ -d "$cat_dir" ]]; then
     while IFS= read -r skill_dir; do
       skills+=("$(basename "$skill_dir")")
