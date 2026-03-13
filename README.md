@@ -1,6 +1,6 @@
 # Cursor Skills
 
-Repositorio centralizado de Cursor Agent Skills do time **Transition 2 English (T2E)**. Framework agnostico com 19 skills em 9 categorias, cobrindo o ciclo completo de desenvolvimento: da concepcao ao deploy em producao, incluindo monitoramento, resposta a incidentes e limpeza de artefatos.
+Repositorio centralizado de Cursor Agent Skills do time **Transition 2 English (T2E)**. Framework agnostico com 21 skills em 9 categorias, cobrindo o ciclo completo de desenvolvimento: da concepcao ao deploy em producao, incluindo monitoramento, inteligencia de producao, resposta a incidentes e limpeza de artefatos.
 
 ## Quick Start
 
@@ -44,19 +44,21 @@ git clone https://github.com/transition2english/cursor-skills.git /tmp/cursor-sk
 |-------|-----------|--------|
 | **learning-opportunities** | Exercicios de aprendizado com Code Archaeology e dominios expandidos | 1.2.0 |
 
-### operations (3) -- NOVO
+### operations (5)
 
 | Skill | Descricao | Versao |
 |-------|-----------|--------|
 | **deploy-release** | Pre-deploy checklist, release notes, rollback, versioning | 1.0.0 |
-| **observability-setup** | Logging estruturado, metricas, tracing, health checks, alertas | 1.0.0 |
+| **ghcr-portainer-deploy** | Pipeline Docker: build via GitHub Actions, push GHCR, deploy Portainer | 1.0.0 |
+| **observability-setup** | Logging estruturado, metricas, tracing, health checks, alertas | 1.1.0 |
 | **incident-response** | Resposta a incidentes: triage, troubleshooting, postmortem | 1.0.0 |
+| **production-intelligence** | Feedback loop producao-dev: Sentry, Portainer, audit trail, .notebook/ | 1.0.0 |
 
-### orchestration (1) -- NOVO
+### orchestration (1)
 
 | Skill | Descricao | Versao |
 |-------|-----------|--------|
-| **feature-lifecycle** | Meta-skill que orquestra o ciclo completo de uma feature | 1.0.0 |
+| **feature-lifecycle** | Meta-skill que orquestra o ciclo completo de uma feature | 1.1.0 |
 
 ### project-management (1)
 
@@ -64,7 +66,7 @@ git clone https://github.com/transition2english/cursor-skills.git /tmp/cursor-sk
 |-------|-----------|--------|
 | **linear-project-management** | Gestao Linear: sprints, retro, velocity, WIP limits | 1.1.0 |
 
-### quality (5) -- NOVO
+### quality (5)
 
 | Skill | Descricao | Versao |
 |-------|-----------|--------|
@@ -82,9 +84,10 @@ git clone https://github.com/transition2english/cursor-skills.git /tmp/cursor-sk
 
 ## Shared References
 
-O diretorio `skills/_shared/references/` contem logica compartilhada entre skills:
+O diretorio `skills/_shared/references/` contem logica compartilhada entre skills (instalado automaticamente em `~/.cursor/skills/_shared/`):
 
 - **linear-helpers.md** — Integracao Linear: detectar issue pela branch, atualizar status, comentarios
+- **coding-principles.md** — Principios de codificacao compartilhados entre code-navi e coding-guidelines
 
 ## Dependencias entre Skills
 
@@ -92,13 +95,19 @@ O diretorio `skills/_shared/references/` contem logica compartilhada entre skill
 |-------|-----------|------|
 | **spec-driven** | code-navi | Recomendado |
 | **code-navi** | Context7 MCP | Recomendado |
-| **finalize-branch** | `gh` CLI, code-review | Obrigatorio / Recomendado |
+| **finalize-branch** | `gh` CLI, code-review, workspace-hygiene | Obrigatorio / Recomendado |
 | **gh-fix-ci** | `gh` CLI autenticado | Obrigatorio |
 | **gh-address-comments** | `gh` CLI autenticado | Obrigatorio |
 | **linear-project-management** | `user-linear` MCP + `.cursor/linear.json` | Obrigatorio |
-| **feature-lifecycle** | Todas as skills acima | Recomendado (graceful degradation) |
-| **deploy-release** | docs-writer, dependency-guardian | Recomendado |
-| **incident-response** | Sentry MCP, observability-setup | Recomendado |
+| **feature-lifecycle** | Todas as skills (graceful degradation) | Recomendado |
+| **deploy-release** | ghcr-portainer-deploy, docs-writer, incident-response, dependency-guardian | Recomendado |
+| **ghcr-portainer-deploy** | `gh` CLI, deploy-release, gh-fix-ci, incident-response, observability-setup | Obrigatorio / Recomendado |
+| **incident-response** | Sentry MCP, observability-setup, production-intelligence | Recomendado |
+| **observability-setup** | Sentry MCP, performance-audit | Recomendado |
+| **production-intelligence** | Sentry MCP ou Portainer API, observability-setup, incident-response, ghcr-portainer-deploy, performance-audit | Obrigatorio / Recomendado |
+| **code-review** | testing-strategy, security-best-practices | Recomendado |
+| **performance-audit** | observability-setup | Recomendado |
+| **workspace-hygiene** | finalize-branch, feature-lifecycle, spec-driven, code-navi | Recomendado |
 | **security-best-practices** | dependency-guardian, Sentry MCP | Recomendado |
 
 ## Instalacao
@@ -178,7 +187,7 @@ A skill `linear-project-management` requer um arquivo `.cursor/linear.json` na r
 ./install.sh --init-linear
 ```
 
-O script pergunta o nome do projeto e cria `.cursor/linear.json`. Se o arquivo ja existir, pede confirmacao antes de sobrescrever.
+O script pergunta o nome do time e do projeto e cria `.cursor/linear.json`. Se o arquivo ja existir, pede confirmacao antes de sobrescrever.
 
 ### Workflow Linear
 
@@ -271,6 +280,8 @@ As skills abaixo sao distribuidas sob licenca [Creative Commons Attribution 4.0]
 |-------|-------|
 | finalize-branch | Rafael Pereira / T2E |
 | linear-project-management | Rafael Pereira / T2E |
+| ghcr-portainer-deploy | Rafael Pereira / T2E |
+| production-intelligence | Rafael Pereira / T2E |
 
 ### Skills NAO incluidas
 

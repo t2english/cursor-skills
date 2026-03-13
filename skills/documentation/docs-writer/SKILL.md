@@ -21,7 +21,7 @@ Determine which type of document is needed:
 | **Changelog** | Preparing a release | [changelog-format.md](references/changelog-format.md) |
 | **Runbook** | Operational procedure needed | [runbook-template.md](references/runbook-template.md) |
 | **README** | New project or major update | [readme-template.md](references/readme-template.md) |
-| **General** | Guides, tutorials, reference docs | Follow style guide below |
+| **General** | Guides, tutorials, reference docs | [style-guide.md](references/style-guide.md) |
 
 ## Step 2: Investigate and Gather
 

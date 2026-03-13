@@ -78,11 +78,16 @@ Detect the target platform and follow the appropriate strategy:
 - Verify via deployment URL in PR checks
 - Rollback: revert commit or use platform dashboard
 
-**Docker**:
+**Docker (generic)**:
 - Build image: `docker build -t <app>:<version> .`
 - Push to registry: `docker push <registry>/<app>:<version>`
 - Update deployment (K8s, ECS, Docker Compose)
 - Rollback: deploy previous image tag
+
+**GHCR + Portainer** (containerized apps on self-hosted infrastructure):
+- For the full automated pipeline (GitHub Actions build, GHCR push, Portainer stack deploy), invoke `ghcr-portainer-deploy`
+- Requires `.cursor/deploy.json` with GHCR and Portainer configuration
+- Handles image tagging, registry setup, stack creation/update, and redeploy with pull
 
 **Manual/SSH**:
 - Document exact commands in a runbook (invoke docs-writer)
@@ -120,6 +125,7 @@ After deploying:
 ## Integration
 
 - **finalize-branch**: merges the code; this skill handles what comes after
+- **ghcr-portainer-deploy**: concrete implementation for Docker/GHCR/Portainer pipeline
 - **docs-writer**: generates changelogs and release notes
 - **incident-response**: invoked if deploy causes issues
 - **linear-project-management**: updates issue status post-deploy

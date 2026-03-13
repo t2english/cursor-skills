@@ -6,5 +6,5 @@
   "license": "CC-BY-4.0",
   "last_updated": "2026-03-13",
   "description": "End-to-end workflow for deploying applications and managing releases.",
-  "recommends": ["docs-writer", "incident-response", "dependency-guardian"]
+  "recommends": ["ghcr-portainer-deploy", "docs-writer", "incident-response", "dependency-guardian"]
 }

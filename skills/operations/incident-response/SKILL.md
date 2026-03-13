@@ -122,9 +122,31 @@ After every P1/P2 incident, write a postmortem. No blame, only learning.
 
 Create follow-up issues in Linear for each action item.
 
+### Record in Production Intelligence
+
+After the postmortem, persist the findings for future sessions:
+
+```
+1. If production-intelligence skill is available, invoke it to:
+   a. Create/update .notebook/production/ entry for the root cause
+   b. Record the deploy correlation (which deploy introduced the issue)
+   c. Update .deploys/log.md with the incident outcome
+   d. Ensure the "Do instead" from the postmortem action items
+      becomes part of the production notebook entry
+
+2. If production-intelligence is not available, manually create:
+   .notebook/production/<incident-slug>.md with:
+   - Root cause, deploy correlation, impact, "Do instead" action
+   - Follow the format in production-intelligence/references/notebook-production-format.md
+   - Update .notebook/INDEX.md
+```
+
+This ensures that incident learnings survive across sessions and inform future development decisions.
+
 ## Integration
 
 - **observability-setup**: provides the monitoring that detects incidents
+- **production-intelligence**: persists incident findings in `.notebook/production/` for cross-session learning
 - **deploy-release**: rollback procedures
 - **linear-project-management**: follow-up issue tracking
 - **testing-strategy**: reproduction tests for incidents

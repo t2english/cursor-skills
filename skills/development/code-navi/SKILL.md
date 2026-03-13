@@ -4,7 +4,7 @@ description: Your pathfinder for navigating unknown codebases. Investigates with
 license: CC-BY-4.0
 metadata:
   author: Felipe Rodrigues - github.com/felipfr
-  version: '1.1.0'
+  version: '1.2.0'
 ---
 
 # Code Navi

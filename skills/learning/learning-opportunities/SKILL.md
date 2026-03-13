@@ -6,7 +6,7 @@ metadata:
   original_author: Chris Hicks
   modified_by: Felipe Rodrigues - github.com/felipfr
   source: https://www.fightforthehuman.com
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Learning Opportunities

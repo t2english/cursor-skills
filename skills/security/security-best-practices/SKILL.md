@@ -1,9 +1,9 @@
 ---
 name: security-best-practices
-description: Perform language and framework specific security best-practice reviews and suggest improvements. Use when the user requests security guidance, a security review, a security report, or secure-by-default coding help. Also use when the user mentions vulnerabilities, authentication issues, authorization flaws, injection risks, secrets management, OWASP, or any security concern in their code. Supports Python, JavaScript/TypeScript, and Go. Triggers on "security review", "is this secure", "check for vulnerabilities", "harden this", "security audit". Do NOT use for general code review, debugging, threat modeling (use security-threat-model), or non-security tasks.
+description: Perform language and framework specific security best-practice reviews and suggest improvements. Use when the user requests security guidance, a security review, a security report, or secure-by-default coding help. Also use when the user mentions vulnerabilities, authentication issues, authorization flaws, injection risks, secrets management, OWASP, or any security concern in their code. Supports Python, JavaScript/TypeScript, and Go. Triggers on "security review", "is this secure", "check for vulnerabilities", "harden this", "security audit". Do NOT use for general code review, debugging, threat modeling, or non-security tasks.
 metadata:
   author: github.com/openai/skills
-  version: '1.0.0'
+  version: '1.1.0'
 ---
 
 # Security Best Practices

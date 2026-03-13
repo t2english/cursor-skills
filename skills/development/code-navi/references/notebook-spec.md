@@ -29,8 +29,12 @@ Notes start flat in the root of `.notebook/`. When volume exceeds
 │   └── checkout-race.md
 ├── corrections/
 │   └── api-camelcase-assumption.md
-└── domain/
-    └── coupon-types.md
+├── domain/
+│   └── coupon-types.md
+└── production/
+    ├── payment-timeout.md
+    ├── health-baseline.md
+    └── deploy-correlation-2026-03-13.md
 ```
 
 Categories:
@@ -40,6 +44,7 @@ Categories:
 - **gotchas** — Traps. Bugs, quirks, counterintuitive behavior.
 - **corrections** — Agent mistakes and learned behavior. What went wrong, what to do instead.
 - **domain** — Business concepts. Terminology, rules, logic not obvious in code.
+- **production** — Runtime intelligence. Errors from Sentry, container health, deploy correlations. Managed by the `production-intelligence` skill. See `operations/production-intelligence/references/notebook-production-format.md` for the full format spec.
 
 These categories are guidelines, not rigid rules. If a note fits
 multiple categories, pick the primary one. If none fits, put it in root.

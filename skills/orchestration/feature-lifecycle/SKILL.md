@@ -34,8 +34,8 @@ Each phase maps to a skill:
 | REVIEW | code-review + security-best-practices | Pre-flight code review + security scan |
 | DOCUMENT | docs-writer (optional) | Update docs if feature is user-facing |
 | MERGE | finalize-branch | PR, CI, merge |
-| DEPLOY | deploy-release | Release to production |
-| MONITOR | observability-setup | Verify in production |
+| DEPLOY | deploy-release + ghcr-portainer-deploy | Release to production (GHCR + Portainer for container workloads) |
+| MONITOR | observability-setup + production-intelligence | Verify in production, collect feedback |
 
 ## Phase Detection
 
@@ -84,9 +84,18 @@ Report current phase and what comes next.
 11. Invoke deploy-release → DEPLOY
     - Auto-deploy (Vercel/Netlify/merge-triggered): verify the
       automatic deployment succeeded via deployment URL or checks
+    - Container deploy (GHCR + Portainer): invoke ghcr-portainer-deploy
+      to build image via GitHub Actions, push to GHCR, and deploy/redeploy
+      the stack on Portainer via API
     - Manual deploy: invoke deploy-release explicitly with
       pre-deploy checklist, versioning, and release notes
 12. Invoke observability-setup → MONITOR (verify in production)
+13. Invoke production-intelligence → FEEDBACK (close the loop)
+    - Collect errors from Sentry, container logs from Portainer, health status
+    - Analyze patterns and correlate with this deploy
+    - Record findings in .notebook/production/ for future sessions
+    - Create Linear issues for any new production problems
+    - Append to .deploys/log.md audit trail
 ```
 
 ## Resuming a Feature
@@ -170,6 +179,8 @@ This skill is the hub. It delegates to:
 - **security-best-practices**: REVIEW phase (security scan for sensitive features)
 - **docs-writer**: DOCUMENT phase (optional, for user-facing features)
 - **finalize-branch**: MERGE phase
-- **deploy-release**: DEPLOY phase
-- **observability-setup**: MONITOR phase
+- **deploy-release**: DEPLOY phase (general strategy, versioning, release notes)
+- **ghcr-portainer-deploy**: DEPLOY phase (container pipeline: GHCR image + Portainer stack)
+- **observability-setup**: MONITOR phase (verify infrastructure health)
+- **production-intelligence**: MONITOR phase (collect production data, close feedback loop)
 - **workspace-hygiene**: post-MONITOR cleanup (optional)

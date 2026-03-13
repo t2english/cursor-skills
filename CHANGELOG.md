@@ -1,5 +1,33 @@
 # Changelog
 
+## [2.2.0] - 2026-03-13
+
+### Added
+- **ghcr-portainer-deploy** v1.0.0 (operations): pipeline Docker completo via GitHub Actions, push GHCR, deploy Portainer via API
+  - Workflow GitHub Actions com build, tag, push para GHCR
+  - Registro de GHCR no Portainer, criacao/update de stacks
+  - Verificacao pos-deploy, rollback, integracao com production-intelligence
+  - Configuravel via `.cursor/deploy.json`
+- **production-intelligence** v1.0.0 (operations): feedback loop producao-dev
+  - Coleta dados de Sentry, Portainer logs, health endpoints
+  - Analise de padroes de erro e correlacao com deploys
+  - Persistencia em `.notebook/production/` e audit trail em `.deploys/log.md`
+  - Cria issues no Linear para problemas recorrentes
+- 5 templates de referencia para **docs-writer**: api-docs, adr-template, changelog-format, runbook-template, readme-template
+
+### Enhanced
+- **feature-lifecycle** v1.1.0: integracoes com ghcr-portainer-deploy (DEPLOY container), production-intelligence (MONITOR feedback), workspace-hygiene (CLEANUP)
+- **observability-setup** v1.1.0: step 7 Post-Deploy Performance Watch com deteccao de degradacao e sugestao de performance-audit/incident-response
+- **deploy-release** v1.0.0: estrategia GHCR + Portainer com referencia a ghcr-portainer-deploy
+- **incident-response** v1.0.0: secao "Record in Production Intelligence" para persistir aprendizados pos-postmortem
+
+### Fixed
+- Versoes no frontmatter SKILL.md sincronizadas com `.skill-meta.json` (6 skills corrigidas)
+- README atualizado de 19 para 21 skills, versoes corrigidas
+- `install.sh` agora instala `_shared/references/` automaticamente
+- `install.sh --init-linear` agora pergunta nome do time (antes hardcoded "OK IA")
+- Tabela de dependencias no README completada com todas as relacoes documentadas
+
 ## [2.1.0] - 2026-03-13
 
 ### Added
@@ -10,7 +38,7 @@
 
 ### Enhanced
 - **finalize-branch** v1.1.0: step 6.5 sugere Quick Sweep apos merge
-- **feature-lifecycle** v1.0.0: passo pos-MONITOR invoca workspace-hygiene para cleanup
+- **feature-lifecycle** v1.1.0: passo pos-MONITOR invoca workspace-hygiene para cleanup
 - **linear-project-management** v1.1.0: workflow de retro sugere Deep Clean (passo 8)
 
 ## [2.0.0] - 2026-03-13

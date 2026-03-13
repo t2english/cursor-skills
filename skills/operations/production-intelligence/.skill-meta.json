@@ -1,0 +1,11 @@
+{
+  "name": "production-intelligence",
+  "version": "1.0.0",
+  "origin": "T2E (custom)",
+  "author": "Rafael Pereira / T2E",
+  "license": "Proprietary",
+  "last_updated": "2026-03-13",
+  "description": "Close the feedback loop between production and development — collect errors, logs, and health data, analyze patterns, record in .notebook/production/, create Linear issues, maintain deploy audit trail.",
+  "recommends": ["observability-setup", "incident-response", "ghcr-portainer-deploy", "performance-audit"],
+  "requires": ["Sentry MCP or Portainer API (at least one)"]
+}

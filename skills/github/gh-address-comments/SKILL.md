@@ -3,7 +3,7 @@ name: gh-address-comments
 description: Address review and issue comments on the open GitHub PR for the current branch using gh CLI. Use when the user says "address PR comments", "fix review feedback", "respond to PR review", "handle PR comments", "check PR reviews", "what did reviewers say", or any request involving feedback left on a pull request. Also use when the user mentions reviewer comments, requested changes, or PR suggestions they need to resolve. Verifies gh auth first. Do NOT use for creating PRs, CI debugging (use gh-fix-ci), or general Git operations.
 metadata:
   author: github.com/openai/skills
-  version: '1.0.0'
+  version: '1.1.0'
   short-description: Address comments in a GitHub PR review
 ---
 

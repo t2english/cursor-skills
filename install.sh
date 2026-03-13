@@ -114,6 +114,25 @@ copy_skill() {
   fi
 }
 
+install_shared_refs() {
+  local shared_src="$SKILLS_SRC/_shared"
+  local shared_target="$SKILLS_TARGET/_shared"
+
+  if [[ ! -d "$shared_src" ]]; then
+    return 0
+  fi
+
+  mkdir -p "$shared_target"
+
+  if command -v rsync &>/dev/null; then
+    rsync -a --delete "$shared_src/" "$shared_target/"
+  else
+    rm -rf "$shared_target"
+    cp -r "$shared_src" "$shared_target"
+  fi
+  success "Installed shared references: ${BOLD}_shared/${NC}"
+}
+
 install_skill() {
   local name="$1"
   local dry_run="${2:-false}"
@@ -215,7 +234,13 @@ init_linear() {
   fi
 
   mkdir -p .cursor
-  read -rp "Project name for Linear: " project_name
+  read -rp "Team name in Linear: " team_name
+  if [[ -z "$team_name" ]]; then
+    error "Team name cannot be empty."
+    return 1
+  fi
+
+  read -rp "Project name in Linear: " project_name
   if [[ -z "$project_name" ]]; then
     error "Project name cannot be empty."
     return 1
@@ -223,12 +248,12 @@ init_linear() {
 
   cat > "$target" <<EOF
 {
-  "team": "OK IA",
+  "team": "${team_name}",
   "project": "${project_name}"
 }
 EOF
 
-  success "Created: ${target} (project: ${project_name})"
+  success "Created: ${target} (team: ${team_name}, project: ${project_name})"
 }
 
 print_summary() {
@@ -311,6 +336,7 @@ case "$ACTION" in
     for name in "${all_skills[@]}"; do
       install_skill "$name" "$DRY_RUN" "$FORCE"
     done
+    [[ "$DRY_RUN" != "true" ]] && install_shared_refs
     [[ "$DRY_RUN" != "true" ]] && print_summary
     ;;
 
@@ -323,6 +349,7 @@ case "$ACTION" in
       name="$(echo "$name" | xargs)"
       install_skill "$name" "$DRY_RUN" "$FORCE"
     done
+    [[ "$DRY_RUN" != "true" ]] && install_shared_refs
     [[ "$DRY_RUN" != "true" ]] && print_summary
     ;;
 
@@ -339,6 +366,7 @@ case "$ACTION" in
     for name in "${cat_skills[@]}"; do
       install_skill "$name" "$DRY_RUN" "$FORCE"
     done
+    [[ "$DRY_RUN" != "true" ]] && install_shared_refs
     [[ "$DRY_RUN" != "true" ]] && print_summary
     ;;
 
@@ -362,6 +390,7 @@ case "$ACTION" in
     if [[ $local_updated -eq 0 ]]; then
       warn "No installed skills found to update."
     fi
+    [[ "$DRY_RUN" != "true" ]] && install_shared_refs
     [[ "$DRY_RUN" != "true" ]] && print_summary
     ;;
 

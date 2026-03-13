@@ -3,7 +3,7 @@ name: spec-driven
 description: Project and feature planning with 4 phases - Specify, Design, Tasks, Implement+Validate. Creates atomic tasks with verification criteria and maintains persistent memory across sessions. Stack-agnostic. Use when starting new projects, mapping existing codebases, planning features, breaking work into tasks, implementing with verification, or pausing/resuming work across sessions. Make sure to use this skill whenever the user needs structured planning, task breakdown, or wants to go from idea to implementation methodically — even if they just say "let's build this" or "plan this feature". Triggers on "initialize project", "map codebase", "specify feature", "design", "tasks", "implement", "pause work", "resume work", "plan this", "break this down".
 metadata:
   author: github.com/felipfr
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Spec-Driven Development
@@ -129,7 +129,7 @@ Before moving from SPECIFY to DESIGN, verify:
 | Break into tasks, create tasks | [tasks.md](references/tasks.md) |
 | Implement task, build | [implement.md](references/implement.md) |
 | Validate, verify, test | [validate.md](references/validate.md) |
-| Sync with Linear, create issues | [linear-sync.md](_shared/references/linear-helpers.md) |
+| Sync with Linear, create issues | [linear-helpers.md](_shared/references/linear-helpers.md) |
 
 **Tools:**
 | Trigger Pattern | Reference |

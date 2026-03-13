@@ -102,7 +102,7 @@ CallMcpTool(server: "user-linear", toolName: "save_issue", arguments: {
 ### Registrar Progresso (Comentario)
 
 ```
-CallMcpTool(server: "user-linear", toolName: "create_comment", arguments: {
+CallMcpTool(server: "user-linear", toolName: "save_comment", arguments: {
   issueId: "<issue-id>",
   body: "## Progresso\n\n- Implementado X\n- Proximo passo: Y"
 })

@@ -3,7 +3,7 @@ name: gh-fix-ci
 description: Debug and fix failing GitHub PR checks that run in GitHub Actions. Uses `gh` to inspect checks and logs, summarize failure context, draft a fix plan, and implement only after explicit approval. Use whenever the user mentions CI failures, broken pipeline, red checks, failing tests in CI, GitHub Actions errors, "CI is broken", "checks are failing", "fix the pipeline", or any PR check that isn't passing. Treats external providers (e.g. Buildkite) as out of scope. Do NOT use for addressing PR review comments (use gh-address-comments) or general CI outside GitHub Actions.
 metadata:
   author: github.com/openai/skills
-  version: '1.0.0'
+  version: '1.1.0'
 ---
 
 # GitHub Fix CI

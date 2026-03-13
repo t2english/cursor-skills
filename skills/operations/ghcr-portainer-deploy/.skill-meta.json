@@ -1,0 +1,11 @@
+{
+  "name": "ghcr-portainer-deploy",
+  "version": "1.0.0",
+  "origin": "T2E (custom)",
+  "author": "Rafael Pereira / T2E",
+  "license": "Proprietary",
+  "last_updated": "2026-03-13",
+  "description": "Build Docker images via GitHub Actions, push to GHCR, and deploy stacks on Portainer via API.",
+  "recommends": ["deploy-release", "gh-fix-ci", "incident-response", "observability-setup"],
+  "requires": ["gh CLI autenticado", "Portainer API key", ".cursor/deploy.json no projeto"]
+}
