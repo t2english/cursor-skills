@@ -52,6 +52,38 @@ Plan and implement projects with precision. Granular tasks. Clear dependencies. 
 2. Initialize project → PROJECT.md + ROADMAP.md
 3. Specify features → existing workflow
 
+## Requirements Formats
+
+### User Stories (optional format for SPECIFY)
+
+When specifying features, optionally use the User Story format:
+
+```
+As a [persona/role],
+I want to [action/capability],
+so that [benefit/outcome].
+```
+
+### Acceptance Criteria (Given/When/Then)
+
+For precise, testable criteria in spec.md:
+
+```
+Given [precondition],
+When [action],
+Then [expected result].
+```
+
+### Definition of Ready
+
+Before moving from SPECIFY to DESIGN, verify:
+
+- [ ] Problem statement is clear (why, not just what)
+- [ ] Success criteria are measurable and testable
+- [ ] Scope boundaries are defined (what is NOT included)
+- [ ] Dependencies on other features/systems are identified
+- [ ] At least one acceptance criterion uses Given/When/Then format
+
 ## Context Loading Strategy
 
 **Base load (~15k tokens):**
@@ -97,6 +129,7 @@ Plan and implement projects with precision. Granular tasks. Clear dependencies. 
 | Break into tasks, create tasks | [tasks.md](references/tasks.md) |
 | Implement task, build | [implement.md](references/implement.md) |
 | Validate, verify, test | [validate.md](references/validate.md) |
+| Sync with Linear, create issues | [linear-sync.md](_shared/references/linear-helpers.md) |
 
 **Tools:**
 | Trigger Pattern | Reference |

@@ -1,10 +1,10 @@
 {
   "name": "finalize-branch",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "origin": "T2E (custom)",
   "author": "Rafael Pereira / T2E",
   "license": "Proprietary",
-  "last_updated": "2026-02-28",
+  "last_updated": "2026-03-13",
   "description": "Workflow completo para fechar branch: lint, knip, build, test, push, PR, CI, merge, cleanup.",
   "recommends": [],
   "requires": ["gh CLI autenticado"]

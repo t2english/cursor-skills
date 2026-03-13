@@ -26,7 +26,7 @@ SKIPPED=0
 
 print_header() {
   echo -e "\n${BOLD}${CYAN}╔══════════════════════════════════════╗${NC}"
-  echo -e "${BOLD}${CYAN}║     Cursor Skills Installer v1.0     ║${NC}"
+  echo -e "${BOLD}${CYAN}║     Cursor Skills Installer v2.0     ║${NC}"
   echo -e "${BOLD}${CYAN}╚══════════════════════════════════════╝${NC}\n"
 }
 
@@ -267,7 +267,7 @@ usage() {
   echo "  $0 --remove codenavi                         # Remove a skill"
   echo "  $0 --all --dry-run                           # Preview installation"
   echo ""
-  echo -e "${BOLD}Categories:${NC} development, documentation, github, learning, project-management, security"
+  echo -e "${BOLD}Categories:${NC} development, documentation, github, learning, operations, orchestration, project-management, quality, security"
 }
 
 # --- Main ---
@@ -330,7 +330,7 @@ case "$ACTION" in
     read -ra cat_skills <<< "$(get_category_skills "$CATEGORY_NAME")"
     if [[ ${#cat_skills[@]} -eq 0 ]]; then
       error "No skills found in category: ${CATEGORY_NAME}"
-      echo -e "  Available: development, documentation, github, learning, project-management, security"
+      echo -e "  Available: development, documentation, github, learning, operations, orchestration, project-management, quality, security"
       exit 1
     fi
     info "Installing category '${CATEGORY_NAME}' (${#cat_skills[@]} skills)..."

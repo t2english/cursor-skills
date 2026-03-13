@@ -71,3 +71,49 @@ Usage examples:
 - `python "<path-to-skill>/scripts/inspect_pr_checks.py" --repo "." --pr "123"`
 - `python "<path-to-skill>/scripts/inspect_pr_checks.py" --repo "." --pr "https://github.com/org/repo/pull/123" --json`
 - `python "<path-to-skill>/scripts/inspect_pr_checks.py" --repo "." --max-lines 200 --context 40`
+
+## Common Fix Patterns
+
+Reference for the most common CI failures and their fixes:
+
+### Lockfile Sync
+**Symptom**: "lockfile is out of sync" or "missing dependencies"
+**Fix**: Run `<package-manager> install` from repo root and commit the updated lock file.
+
+### Type Errors
+**Symptom**: TypeScript compilation fails with type errors
+**Fix**: Check if types are from a recently updated dependency. May need `@types/` package update.
+
+### Flaky Tests
+**Symptom**: Test passes locally but fails in CI (or fails intermittently)
+**Indicators**: Different results on re-run, timing-dependent assertions, external API calls
+**Fix**: Add retries for network-dependent tests, use fixed timestamps in date tests, mock external services.
+
+### Missing Environment Variables
+**Symptom**: "undefined" errors or config validation failures
+**Fix**: Check CI workflow secrets/variables. Add missing vars to GitHub Actions secrets.
+
+### Timeout
+**Symptom**: Job exceeds time limit
+**Fix**: Check for infinite loops, increase timeout if test suite grew, optimize slow tests.
+
+## Failure Categories
+
+When reporting failures, classify them:
+
+- **build**: Compilation/transpilation errors (TypeScript, ESBuild, etc.)
+- **lint**: Code style and static analysis violations
+- **test**: Test assertions failing
+- **integration**: Integration/E2E test failures
+- **timeout**: Job exceeded time limit
+- **infra**: CI infrastructure issues (runner unavailable, network, permissions)
+
+## Rerun Strategy
+
+Before fixing, determine if a rerun might resolve it:
+
+```
+1. Is this a known flaky test? → rerun: gh run rerun <run-id> --failed
+2. Is this an infra issue (network, runner)? → rerun the failed jobs only
+3. Is this a code issue? → fix the code, don't rerun
+```

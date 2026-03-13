@@ -72,3 +72,37 @@ For multi-step tasks, state a brief plan:
 ```
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+## 5. Error Handling Strategy
+
+**Fail fast, fail clearly. Never swallow errors silently.**
+
+- Use custom error types/classes that carry context (not just messages)
+- Errors should be actionable: include what went wrong AND what to do about it
+- Never catch errors just to re-throw them without adding information
+- Log errors at the boundary (API handler, queue consumer), not deep in business logic
+- For async operations: always handle rejections, never leave promises unhandled
+
+## 6. Accessibility and Internationalization
+
+**When working on frontend code:**
+
+- Use semantic HTML elements (`button`, `nav`, `main`) over generic `div`/`span`
+- Include `aria-label` or `aria-describedby` for interactive elements without visible text
+- Ensure keyboard navigation works (tab order, focus management)
+- Use relative units (rem, em) over fixed pixels for font sizes
+- Extract user-facing strings to constants or i18n files — never hardcode text in components
+- Support RTL layouts if the project serves international users
+
+## 7. When to Break the Rules
+
+**Pragmatism over dogma. Rules serve the mission, not the other way around.**
+
+These guidelines are defaults, not laws. Break them when:
+
+- A deadline requires shipping "good enough" now (but leave a TODO with context)
+- The existing codebase consistently does it differently (match the project, not the ideal)
+- The rule creates more complexity than the problem it solves
+- You're in a prototype/spike and clarity matters more than polish
+
+When breaking a rule, state which rule and why: "Breaking simplicity-first here because [reason]."

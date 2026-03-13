@@ -1,0 +1,10 @@
+{
+  "name": "deploy-release",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "T2E",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-03-13",
+  "description": "End-to-end workflow for deploying applications and managing releases.",
+  "recommends": ["docs-writer", "incident-response", "dependency-guardian"]
+}

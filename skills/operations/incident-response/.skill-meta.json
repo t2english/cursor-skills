@@ -1,0 +1,10 @@
+{
+  "name": "incident-response",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "T2E",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-03-13",
+  "description": "Structured workflow for responding to production incidents — detection through postmortem.",
+  "recommends": ["Sentry MCP", "observability-setup"]
+}

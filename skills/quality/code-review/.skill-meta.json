@@ -1,0 +1,10 @@
+{
+  "name": "code-review",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "T2E",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-03-13",
+  "description": "Proactive pre-PR code review that catches issues before they reach teammates.",
+  "recommends": ["testing-strategy", "security-best-practices"]
+}

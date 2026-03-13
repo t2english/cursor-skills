@@ -1,0 +1,10 @@
+{
+  "name": "testing-strategy",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "T2E",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-03-13",
+  "description": "Dedicated workflow for creating, running, and analyzing tests across all levels.",
+  "recommends": []
+}

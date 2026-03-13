@@ -29,3 +29,31 @@ Guide to find the open PR for the current branch and address its comments with g
 Notes:
 
 - If gh hits auth/rate issues mid-run, prompt the user to re-authenticate with `gh auth login`, then retry.
+
+## Comment Categories
+
+When listing comments, categorize each one:
+
+- **Blocking**: Must be addressed before merge (bugs, security, incorrect behavior)
+- **Suggestion**: Recommended improvement (better naming, patterns, performance)
+- **Question**: Reviewer needs clarification (explain intent, add comment in code)
+- **Nit**: Minor style/preference issue (can be skipped if time-constrained)
+
+Present categories clearly: `[BLOCKING] Fix null check in auth middleware` vs `[NIT] Consider renaming 'data' to 'userData'`
+
+## Batch Mode
+
+When multiple non-conflicting fixes are selected:
+
+1. Group fixes by file
+2. Apply all fixes for a file in a single edit pass
+3. Run linter after all fixes to catch any issues
+4. Present summary of all changes made
+
+## Auto-Resolve
+
+After applying a fix for a comment:
+
+- If the fix directly addresses the comment, suggest resolving the thread
+- Do NOT auto-resolve without the developer's approval
+- For questions: draft a response explaining the code, let the developer approve before posting

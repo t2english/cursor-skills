@@ -33,7 +33,9 @@ BRIEFING → RECON → PLAN → EXECUTE → VERIFY → DEBRIEF
 
 Understand the mission before moving.
 
-1. Read `.notebook/INDEX.md` if it exists. This is your accumulated intelligence about the project — use it. While reading, curate it: re-prioritize by relevance, merge duplicates, remove stale entries (see `references/notebook-spec.md` Curation Rules).
+1. **Bootstrap `.notebook/`**: If `.notebook/INDEX.md` exists, read it — this is your accumulated intelligence. While reading, curate it: re-prioritize by relevance, merge duplicates, remove stale entries (see `references/notebook-spec.md` Curation Rules). If `.notebook/` does NOT exist, create it now:
+   - Create `.notebook/INDEX.md` with a header: `# Project Intelligence\n\nNo entries yet. This file will grow as discoveries are made.`
+   - This removes the activation barrier — the notebook system starts automatically on first mission.
 2. Listen to the developer's request. Identify:
    - What is the objective?
    - What does success look like?
@@ -120,7 +122,8 @@ Validate the work against the plan's success criteria.
 
 1. Check each verification criterion from the Plan.
 2. If tests exist, run them. If the mission was a bug fix, confirm the bug no longer reproduces.
-3. If something doesn't pass, fix it before declaring success.
+3. If the `testing-strategy` skill is available, invoke it to verify test coverage for changed files. If coverage gaps exist for critical logic, flag them.
+4. If something doesn't pass, fix it before declaring success.
 4. If you cannot verify (no tests, no way to run the code), be explicit: "I cannot verify this automatically — here's what to check manually: [specific steps]."
 
 Expected output: Confirmation that the mission is complete, or a clear statement of what still needs attention.
@@ -169,6 +172,7 @@ You don't work alone. Before struggling with a task, check your allies.
 2. **MCP servers** — Check if connected MCPs provide relevant tools. Priority MCPs for development:
 
 - **Context7** → current documentation for any library or framework. Always prefer this for doc lookups.
+- **Linear** (`user-linear`) → issue tracking and status updates. See `_shared/references/linear-helpers.md` for shared integration patterns (detect issue from branch, update status, add comments).
 - **Any other connected MCP** that provides relevant capabilities.
 
 3. **Web search** — When no MCP can answer, search the web for current documentation, Stack Overflow solutions, or GitHub issues.
@@ -209,6 +213,13 @@ Not every mission needs the full ceremony. Scale the cycle to the task.
 **Exploration** (understanding a flow, onboarding to a module):
 
 - Recon IS the mission. Plan becomes "investigate X, document Y." Debrief is the primary deliverable.
+
+**Discovery Sprint** (multi-session deep dive into a system):
+
+- Extended Exploration across multiple sessions. Use STATE.md from `spec-driven` if available.
+- Recon spans multiple modules. Plan includes documentation deliverables.
+- Debrief produces 5+ notes, potentially reorganizing `.notebook/` structure.
+- Consider invoking `spec-driven` to create brownfield mapping docs.
 
 ## Consistency Contract
 

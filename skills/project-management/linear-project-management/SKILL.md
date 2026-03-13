@@ -29,6 +29,8 @@ Skill para gestao de projetos no Linear via MCP (server: `user-linear`).
 
 Use o **nome exato** do time e do projeto como aparecem no Linear (ex.: "ISP AI Stater", "OK IA"). Nunca assuma um valor por padrao; se o arquivo nao existir, siga project-setup.md e pergunte ao usuario.
 
+Para logica compartilhada de integracao Linear (detectar issue pela branch, atualizar status, etc.), veja `_shared/references/linear-helpers.md`.
+
 Use `team` e `project` como filtros diretos em TODAS as chamadas MCP. Quando for necessario **ID** (ex.: `list_cycles`), use `teamId` do config se existir; senao use `team` (nome). Idem para `projectId`/`project`.
 
 **Excecao:** Nunca chame `list_teams` ou `list_projects` a menos que (a) explicitamente solicitado pelo usuario, ou (b) o arquivo **nao existir** e o usuario quiser **configurar o Linear** para o repo. Nesse caso (b), use `list_teams` e `list_projects` para **perguntar** ao usuario qual time e qual projeto usar (exibir a lista e pedir escolha); **nunca assuma** um time ou projeto por padrao. Depois crie o arquivo com os quatro campos (`team`, `teamId`, `project`, `projectId`).
@@ -342,6 +344,76 @@ Durante a execucao de cada issue:
 - Adicionar comentario de progresso se a tarefa demorar
 - **Antes de mover para Done:** Validar que a tarefa esta concluida (criterios de aceite ou verificacao). Em seguida mover para **Done** e adicionar comentario com resumo do que foi feito.
 - Se encontrar bloqueio, registrar como comentario e pular para a proxima
+
+## Workflow: Sprint Retrospective
+
+Automacao da cerimonia de retrospectiva.
+
+### Gatilho
+
+- O usuario diz "retrospectiva", "retro", "o que podemos melhorar"
+
+### Sequencia
+
+```
+1. Ler .cursor/linear.json (team + project)
+2. Buscar ciclo anterior (list_cycles type: "previous")
+3. Listar issues Done do ciclo anterior
+4. Apresentar 3 perguntas ao usuario:
+   a. O que funcionou bem neste sprint?
+   b. O que poderia ser melhorado?
+   c. Que acoes concretas devemos tomar?
+5. Aguardar respostas do usuario
+6. Para cada acao concreta, criar issue no Linear:
+   - Tipo: improvement
+   - Prioridade: 3 (Normal)
+   - Descricao: acao concreta com contexto da retro
+7. Apresentar resumo: acoes criadas com IDs
+8. Sugerir Deep Clean: se a skill workspace-hygiene estiver disponivel,
+   oferecer: "Quer rodar uma limpeza profunda do workspace? Vou auditar
+   specs arquivados, notas antigas e arquivos orfaos."
+   Se aceito, invocar workspace-hygiene Deep Clean.
+```
+
+## Velocity Tracking
+
+Acompanhar a velocidade do time ao longo dos sprints.
+
+### Gatilho
+
+- O usuario diz "velocity", "velocidade do time", "metricas de sprint"
+
+### Sequencia
+
+```
+1. Ler .cursor/linear.json (team)
+2. Buscar ciclo atual e os 2 anteriores (list_cycles)
+3. Para cada ciclo, calcular:
+   - Pontos comprometidos (total de estimativas das issues no ciclo)
+   - Pontos completados (total de estimativas das issues Done)
+   - Completion rate (completados / comprometidos * 100)
+4. Apresentar tabela comparativa:
+   | Sprint | Comprometido | Completado | Rate |
+5. Calcular media movel de 3 sprints
+6. Sugerir capacidade para proximo sprint baseado na media
+```
+
+## WIP Limits
+
+Limite de trabalho em progresso para evitar context switching.
+
+**Regra**: Maximo 2 issues "In Progress" por pessoa. Antes de mover nova issue para In Progress, verificar se o limite ja foi atingido.
+
+Se o limite for atingido:
+1. Listar issues In Progress do usuario
+2. Perguntar qual deve ser concluida ou pausada primeiro
+3. Somente apos liberar uma, mover a nova para In Progress
+
+## Integracao com Outras Skills
+
+### CodeNavi (durante execucao)
+
+Veja `_shared/references/linear-helpers.md` para a logica compartilhada de integracao.
 
 ## Referencia Completa
 

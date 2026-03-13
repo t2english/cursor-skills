@@ -138,3 +138,55 @@ After they locate code, prompt self-explanation:
 - Offering exercises more than twice per session
 - Making exercises feel like tests rather than exploration
 - Continuing to generate after posing a question
+
+## Extended Domains
+
+With the expanded skill framework, offer exercises in these additional areas:
+
+### Testing
+- "Before I show the test — what would you test for this function? List the cases."
+- "Here's a test that's passing but shouldn't. What's the bug in the test?"
+- "This module has 40% coverage. Which 3 functions would you prioritize testing?"
+
+### Deployment
+- "What could go wrong if we deploy this change without a feature flag?"
+- "Walk me through how you'd rollback this deployment."
+- "What pre-deploy checks would you add for a database migration?"
+
+### Observability
+- "If this endpoint starts timing out in production, what metrics would you check first?"
+- "Design the logging for this error handler — what context would be useful?"
+- "Here's a Sentry error report. What's your hypothesis?"
+
+### Security
+- "I see 3 security issues in this code. Can you spot them?"
+- "How would you fix this SQL injection without breaking the feature?"
+- "What happens if someone sends a 10MB payload to this endpoint?"
+
+## Code Archaeology
+
+A special exercise type for understanding existing systems:
+
+```
+Agent: "Pick a module you haven't worked in — say, src/services/billing/.
+       Open the main file. Before I explain anything:
+       1. What do you think this module does based on exports and imports?
+       2. What other modules depend on it?
+       3. What would break if you removed it?"
+
+[STOP — wait for response]
+
+After response:
+Agent: "Good observations. Here's what I found when I traced the actual dependencies:
+       [reveal actual dependency graph].
+       What surprised you?"
+```
+
+## Progress Awareness
+
+Track exercises within a session to avoid repetition:
+
+- After an exercise, mentally note the topic covered
+- Don't offer the same topic twice in one session
+- Vary exercise types: if last was "predict then observe", next should be "generate then compare"
+- Maximum 2 exercises per session (respect the developer's time)

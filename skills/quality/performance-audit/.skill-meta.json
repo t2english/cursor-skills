@@ -1,0 +1,10 @@
+{
+  "name": "performance-audit",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "T2E",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-03-13",
+  "description": "Profile and optimize application performance across backend, database, and frontend.",
+  "recommends": ["observability-setup"]
+}

@@ -1,5 +1,51 @@
 # Changelog
 
+## [2.1.0] - 2026-03-13
+
+### Added
+- **workspace-hygiene** v1.0.0 (quality): limpeza e arquivamento de artefatos de desenvolvimento
+  - Quick Sweep: limpeza leve pos-merge (archive specs, clean plans, remove handoff)
+  - Deep Clean: limpeza profunda por sprint (prune archives >90 dias, orphan files, stale branches)
+  - Configuravel via `.cursor/hygiene.json`
+
+### Enhanced
+- **finalize-branch** v1.1.0: step 6.5 sugere Quick Sweep apos merge
+- **feature-lifecycle** v1.0.0: passo pos-MONITOR invoca workspace-hygiene para cleanup
+- **linear-project-management** v1.1.0: workflow de retro sugere Deep Clean (passo 8)
+
+## [2.0.0] - 2026-03-13
+
+### Breaking Changes
+- **Removed**: `add-api-endpoint` e `add-database-model` — skills projeto-especificas nao pertencem ao framework agnostico. Mover para o repositorio do projeto que as usa.
+- **Renamed**: nomes canonicos atualizados (`codenavi` → `code-navi`, `tlc-spec-driven` → `spec-driven`)
+
+### Added — 8 novas skills
+- **testing-strategy** v1.0.0 (quality): workflow dedicado para unit/integration/e2e, deteccao de framework, coverage analysis
+- **code-review** v1.0.0 (quality): review proativo pre-PR, checklist configuravel, deteccao de code smells
+- **deploy-release** v1.0.0 (operations): pre-deploy checklist, release notes, rollback, versioning, integracao Linear
+- **observability-setup** v1.0.0 (operations): logging estruturado, metricas, tracing, Sentry MCP, health checks
+- **dependency-guardian** v1.0.0 (quality): audit de dependencias, licencas, supply chain, Renovate/Dependabot
+- **performance-audit** v1.0.0 (quality): profiling, query analysis, bundle size, load testing, quick wins
+- **incident-response** v1.0.0 (operations): triage P1-P4, troubleshooting guiado, postmortem template, Linear follow-up
+- **feature-lifecycle** v1.0.0 (orchestration): meta-skill que orquestra ciclo completo da feature
+
+### Added — infraestrutura
+- 3 novas categorias: `operations`, `orchestration`, `quality`
+- `skills/_shared/references/linear-helpers.md`: logica Linear compartilhada (detectar issue, atualizar status)
+- install.sh v2.0: suporta todas as 9 categorias
+
+### Enhanced — 10 skills existentes
+- **code-navi** v1.2.0: bootstrap automatico do .notebook/, integracao com testing-strategy no VERIFY, referencia a linear-helpers.md, nivel Discovery Sprint
+- **spec-driven** v1.1.0: formato User Story, acceptance criteria Given/When/Then, Definition of Ready checklist
+- **coding-guidelines** v1.1.0: error handling strategy, a11y/i18n guidelines, secao "When to break the rules"
+- **docs-writer** v2.0.0: reescrita completa com 5 workflows (API docs, ADRs, Changelogs, Runbooks, READMEs)
+- **finalize-branch** v1.1.0: auto-detect package manager, checks configuraveis via .cursor/finalize.json, pre-flight code-review, referencia linear-helpers
+- **security-best-practices** v1.1.0: modo proativo, OWASP Top 10 checklist, secrets detection, integracao Sentry MCP
+- **linear-project-management** v1.1.0: sprint retrospective, velocity tracking, WIP limits, referencia linear-helpers
+- **gh-fix-ci** v1.1.0: common fix patterns reference, categorias de falha, rerun strategy, flaky detection
+- **gh-address-comments** v1.1.0: categorizacao (blocking/suggestion/nit), batch fixes, auto-resolve threads
+- **learning-opportunities** v1.2.0: exercicios para novos dominios (testing, deploy, security), Code Archaeology, progress awareness
+
 ## [1.3.0] - 2026-03-12
 
 ### Enhanced

@@ -1,0 +1,10 @@
+{
+  "name": "feature-lifecycle",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "T2E",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-03-13",
+  "description": "Meta-skill that orchestrates the complete lifecycle of a feature from specification to deployment.",
+  "recommends": ["spec-driven", "code-navi", "linear-project-management", "testing-strategy", "code-review", "finalize-branch", "deploy-release"]
+}

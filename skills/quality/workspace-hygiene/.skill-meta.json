@@ -1,0 +1,10 @@
+{
+  "name": "workspace-hygiene",
+  "version": "1.0.0",
+  "origin": "tech-leads-club",
+  "author": "T2E",
+  "license": "CC-BY-4.0",
+  "last_updated": "2026-03-13",
+  "description": "Clean up and archive development artifacts after features are completed.",
+  "recommends": ["finalize-branch", "feature-lifecycle", "spec-driven", "code-navi"]
+}

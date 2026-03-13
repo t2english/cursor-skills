@@ -1,6 +1,6 @@
 # Cursor Skills
 
-Repositorio centralizado de Cursor Skills do time **Transition 2 English (T2E)**. Contem 10 skills organizadas em 6 categorias, com script de instalacao automatizado e sistema de backup.
+Repositorio centralizado de Cursor Agent Skills do time **Transition 2 English (T2E)**. Framework agnostico com 19 skills em 9 categorias, cobrindo o ciclo completo de desenvolvimento: da concepcao ao deploy em producao, incluindo monitoramento, resposta a incidentes e limpeza de artefatos.
 
 ## Quick Start
 
@@ -16,31 +16,90 @@ git clone https://github.com/transition2english/cursor-skills.git /tmp/cursor-sk
 
 ## Catalogo de Skills
 
-| Skill | Categoria | Descricao | Versao | Origem |
-|-------|-----------|-----------|--------|--------|
-| **coding-guidelines** | development | Diretrizes anti-overengineering (Karpathy Guidelines) | 1.0.0 | tech-leads-club |
-| **code-navi** | development | Exploracao metodica de codebase com .notebook/ persistente | 1.1.0 | tech-leads-club/felipfr |
-| **spec-driven** | development | Planejamento em 4 fases: Specify, Design, Tasks, Implement+Validate | 1.0.0 | tech-leads-club/felipfr |
-| **docs-writer** | documentation | Escrita e revisao de documentacao com estilo consistente | 1.0.0 | tech-leads-club |
-| **finalize-branch** | github | Workflow: lint, knip, build, test, push, PR, CI, merge, cleanup | 1.0.0 | T2E (custom) |
-| **gh-fix-ci** | github | Diagnostico e fix de CI no GitHub Actions | 1.0.0 | openai/skills |
-| **gh-address-comments** | github | Resolver comentarios e reviews de PR | 1.0.0 | openai/skills |
-| **learning-opportunities** | learning | Exercicios de aprendizado durante AI-assisted coding | 1.1.0 | Chris Hicks/felipfr |
-| **linear-project-management** | project-management | Gestao de projetos no Linear: plan→issues, sprints, templates | 1.2.0 | T2E (custom) |
-| **security-best-practices** | security | Revisao de seguranca para Python, JS/TS, Go | 1.0.0 | openai/skills |
+### development (3)
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **code-navi** | Exploracao metodica de codebase com .notebook/ persistente | 1.2.0 |
+| **coding-guidelines** | Diretrizes anti-overengineering, error handling, a11y | 1.1.0 |
+| **spec-driven** | Planejamento em 4 fases: Specify, Design, Tasks, Implement+Validate | 1.1.0 |
+
+### documentation (1)
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **docs-writer** | 5 workflows: API docs, ADRs, Changelogs, Runbooks, READMEs | 2.0.0 |
+
+### github (3)
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **finalize-branch** | Lint, build, test, review, push, PR, CI, merge (auto-detect pkg manager) | 1.1.0 |
+| **gh-fix-ci** | Diagnostico de CI no GitHub Actions com fix patterns e flaky detection | 1.1.0 |
+| **gh-address-comments** | Resolver comentarios de PR com categorizacao e batch fixes | 1.1.0 |
+
+### learning (1)
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **learning-opportunities** | Exercicios de aprendizado com Code Archaeology e dominios expandidos | 1.2.0 |
+
+### operations (3) -- NOVO
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **deploy-release** | Pre-deploy checklist, release notes, rollback, versioning | 1.0.0 |
+| **observability-setup** | Logging estruturado, metricas, tracing, health checks, alertas | 1.0.0 |
+| **incident-response** | Resposta a incidentes: triage, troubleshooting, postmortem | 1.0.0 |
+
+### orchestration (1) -- NOVO
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **feature-lifecycle** | Meta-skill que orquestra o ciclo completo de uma feature | 1.0.0 |
+
+### project-management (1)
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **linear-project-management** | Gestao Linear: sprints, retro, velocity, WIP limits | 1.1.0 |
+
+### quality (5) -- NOVO
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **testing-strategy** | Workflow de testes: unit, integration, e2e, coverage analysis | 1.0.0 |
+| **code-review** | Review proativo pre-PR com checklist configuravel | 1.0.0 |
+| **dependency-guardian** | Audit de dependencias: seguranca, licencas, supply chain | 1.0.0 |
+| **performance-audit** | Profiling, query optimization, bundle size, load testing | 1.0.0 |
+| **workspace-hygiene** | Limpeza de artefatos: archive specs, prune plans, deep clean | 1.0.0 |
+
+### security (1)
+
+| Skill | Descricao | Versao |
+|-------|-----------|--------|
+| **security-best-practices** | Review de seguranca com scan proativo e OWASP Top 10 | 1.1.0 |
+
+## Shared References
+
+O diretorio `skills/_shared/references/` contem logica compartilhada entre skills:
+
+- **linear-helpers.md** — Integracao Linear: detectar issue pela branch, atualizar status, comentarios
 
 ## Dependencias entre Skills
 
-Algumas skills referenciam outras ferramentas ou skills:
-
 | Skill | Depende de | Tipo |
 |-------|-----------|------|
-| **spec-driven** | code-navi | Recomendado (exploracao de codebase) |
-| **code-navi** | Context7 MCP | Recomendado (lookup de docs) |
-| **finalize-branch** | `gh` CLI autenticado | Obrigatorio |
+| **spec-driven** | code-navi | Recomendado |
+| **code-navi** | Context7 MCP | Recomendado |
+| **finalize-branch** | `gh` CLI, code-review | Obrigatorio / Recomendado |
 | **gh-fix-ci** | `gh` CLI autenticado | Obrigatorio |
 | **gh-address-comments** | `gh` CLI autenticado | Obrigatorio |
 | **linear-project-management** | `user-linear` MCP + `.cursor/linear.json` | Obrigatorio |
+| **feature-lifecycle** | Todas as skills acima | Recomendado (graceful degradation) |
+| **deploy-release** | docs-writer, dependency-guardian | Recomendado |
+| **incident-response** | Sentry MCP, observability-setup | Recomendado |
+| **security-best-practices** | dependency-guardian, Sentry MCP | Recomendado |
 
 ## Instalacao
 
@@ -64,7 +123,7 @@ Algumas skills referenciam outras ferramentas ou skills:
 ./install.sh --category security       # security-best-practices
 ```
 
-**Categorias disponiveis:** `development`, `documentation`, `github`, `learning`, `project-management`, `security`
+**Categorias disponiveis:** `development`, `documentation`, `github`, `learning`, `operations`, `orchestration`, `project-management`, `quality`, `security`
 
 ### Atualizar skills instaladas
 

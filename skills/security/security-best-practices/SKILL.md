@@ -40,6 +40,65 @@ From there it can operate in a few ways.
 - If matching guidance exists in `references/`, load only the relevant files and follow their instructions.
 - If no matching guidance exists, consider if you know any well known security best practices for the chosen language and or frameworks, but if asked to generate a report, let the user know that concrete guidance is not available (you can still generate the report or detect for sure critical vulnerabilities)
 
+## Proactive Security Mode
+
+When working alongside other skills (especially code-navi during EXECUTE), proactively flag critical security issues without being asked:
+
+**Always flag (stop and warn):**
+- Hardcoded secrets: API keys, passwords, tokens, connection strings in source code
+- SQL/NoSQL injection: string concatenation in queries
+- Unvalidated user input used in file paths, commands, or redirects
+- Disabled security features (CSRF disabled, auth bypassed, CORS set to *)
+- Dependencies with known critical CVEs (invoke `dependency-guardian` if available)
+
+**Flag if relevant (note but don't block):**
+- Missing rate limiting on public endpoints
+- Overly permissive file permissions
+- Logging of sensitive data (passwords, tokens, PII)
+- Missing input validation on API endpoints
+
+## OWASP Top 10 Checklist
+
+When performing a full security review, check against OWASP Top 10 (2021):
+
+1. **Broken Access Control**: Verify authorization on every endpoint, not just authentication
+2. **Cryptographic Failures**: No hardcoded secrets, proper encryption for sensitive data at rest
+3. **Injection**: Parameterized queries, input sanitization, no eval/exec with user input
+4. **Insecure Design**: Business logic flaws, missing rate limits, no abuse scenarios considered
+5. **Security Misconfiguration**: Default credentials, unnecessary features enabled, verbose errors in production
+6. **Vulnerable Components**: Dependencies with known CVEs (invoke dependency-guardian)
+7. **Authentication Failures**: Weak password policies, missing MFA options, session fixation
+8. **Data Integrity Failures**: Verify signatures, check for deserialization vulnerabilities
+9. **Logging Failures**: Security events not logged, logs missing context for forensics
+10. **SSRF**: Server-side requests to user-supplied URLs without validation
+
+## Secrets Detection
+
+Scan for common secret patterns:
+
+```
+Patterns to flag:
+- API keys: strings matching [A-Za-z0-9]{20,} near "key", "api_key", "apiKey"
+- AWS: AKIA[0-9A-Z]{16}
+- JWT: eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+
+- Generic: "password" = "...", "secret" = "...", "token" = "..."
+- Connection strings: postgres://, mysql://, mongodb:// with credentials
+- Private keys: -----BEGIN (RSA |EC |DSA )?PRIVATE KEY-----
+```
+
+If secrets are found in committed code, recommend:
+1. Rotate the compromised secret immediately
+2. Remove from code and use environment variables
+3. Add pattern to .gitignore or use git-secrets/gitleaks
+4. Check git history for the secret (may need `git filter-repo`)
+
+## Sentry Integration
+
+If Sentry MCP (`user-sentry`) is available:
+- Query for security-related errors (auth failures, permission denied, injection attempts)
+- Check for error patterns that might indicate attacks
+- Verify that security events are being properly logged and tracked
+
 # Overrides
 
 While these references contain the security best practices for languages and frameworks, customers may have cases where they need to bypass or override these practices. Pay attention to specific rules and instructions in the project's documentation and prompt files which may require you to override certain best practices. When overriding a best practice, you MAY report it to the user, but do not fight with them. If a security best practice needs to be bypassed / ignored for some project specific reason, you can also suggest to add documentation about this to the project so it is clear why the best practice is not being followed and to follow that bypass in the future.
