@@ -127,6 +127,7 @@ Apos ativar, Linear cria ciclos automaticamente a cada semana.
 | Segunda | Sprint Planning | 30 min | Selecionar issues do Backlog para Todo, atribuir responsaveis |
 | Diario | Standup assincrono | - | Cada um atualiza status das suas issues no Linear |
 | Sexta | Sprint Review | 15 min | Revisar o que foi concluido, mover incompletos para proximo sprint |
+| Sexta (quinzenal) | Sprint Retrospective | 15 min | O que funcionou, o que melhorar, acoes concretas (ver workflow no SKILL.md) |
 
 ### Capacidade semanal
 
@@ -248,13 +249,14 @@ Adapte esta tabela para cada projeto. Mantenha-a atualizada conforme o dominio e
 - Labels: Tipo + Area + Impacto
 - Sprints semanais
 - Planning + Review semanal (45 min total)
+- Sprint Retrospective quinzenal (15 min) — acoes viram issues no Linear
 
 ### 8-15 pessoas
 
 - 2-3 Teams por **dominio de produto** (ex: "Okia Platform", "Video Studio"), NAO por area tecnica
 - Initiatives para coordenar trabalho cross-team
 - Sprints quinzenais (mais tempo para trabalho profundo)
-- Adicionar Sprint Retrospective (30 min, quinzenal)
+- Sprint Retrospective a cada sprint (30 min)
 
 ### 15+ pessoas
 

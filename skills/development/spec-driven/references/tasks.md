@@ -281,3 +281,16 @@ Every task MUST include:
 - Can task be verified without human judgment?
 - Is success criteria binary (pass/fail)?
 - Can verification be automated?
+
+---
+
+## Linear Integration
+
+When the `linear-project-management` skill is available and `.cursor/linear.json` exists, tasks created here are automatically synced to Linear as issues when the plan is approved. The workflow:
+
+1. A milestone is created for the plan
+2. Each task becomes a Linear issue (1:1 mapping)
+3. Estimates are inferred from task complexity (Fibonacci scale)
+4. Issues are associated to the current sprint cycle if one is active
+
+This happens via the `linear-project-management` plan-to-issues workflow — no manual sync needed. If Linear is unavailable, tasks.md remains the source of truth and execution continues normally.

@@ -6,7 +6,7 @@
 
 ## MANDATORY: Before Starting Any Implementation
 
-**Read [coding-principles.md](coding-principles.md) and state:**
+**Read `_shared/references/coding-principles.md` and state:**
 
 1. **Assumptions** - What am I assuming? Any uncertainty?
 2. **Files to touch** - List ONLY files this task requires
@@ -42,7 +42,7 @@ Success: [how to verify]
 
 - Follow "What" and "Where" exactly
 - Reference "Reuses" for patterns
-- Apply [coding-principles.md](coding-principles.md):
+- Apply `_shared/references/coding-principles.md`:
   - Simplest code that works
   - Touch ONLY listed files
   - No scope creep

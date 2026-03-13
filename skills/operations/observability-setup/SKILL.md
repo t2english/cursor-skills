@@ -3,7 +3,7 @@ name: observability-setup
 description: Workflow for setting up and improving application observability — structured logging, metrics, tracing, health checks, and alerting. Supports Node.js, Python, and Go. Integrates with Sentry MCP for error tracking. Use when setting up monitoring, adding logging, creating health checks, configuring alerts, or improving observability posture. Triggers on "add logging", "set up monitoring", "health check", "add metrics", "observability", "set up tracing", "configure alerts", "Sentry setup". Do NOT use for debugging specific incidents (use incident-response) or performance optimization (use performance-audit).
 metadata:
   author: T2E
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Observability Setup
@@ -109,8 +109,21 @@ Create alerts for:
 
 Avoid alert fatigue: every alert should be actionable. If you can't act on it, it's a dashboard metric, not an alert.
 
+## Step 7: Post-Deploy Performance Watch
+
+After setting up observability for a new deploy, monitor key metrics for the first 15-30 minutes:
+
+- If **latency p95 increases by >20%** compared to pre-deploy baseline, flag it.
+- If **error rate increases by >1%**, flag it.
+- If **memory/CPU usage climbs steadily** without leveling off, flag it.
+
+When degradation is detected and the `performance-audit` skill is available, suggest it:
+"Metrics show latency degradation after deploy. Want me to run a performance audit to identify the bottleneck?"
+
+If `incident-response` thresholds are hit (error rate >5%, health check failing), escalate to that skill instead.
+
 ## Integration
 
 - **incident-response**: triggered when alerts fire or errors spike
 - **deploy-release**: post-deploy monitoring verification
-- **performance-audit**: uses metrics data for optimization decisions
+- **performance-audit**: suggested when metrics show degradation after deploy

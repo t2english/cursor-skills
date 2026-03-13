@@ -112,7 +112,7 @@ Implement the approved plan. Follow these principles:
 - Follow the language's official best practices and conventions.
 - If best practices conflict with the project's existing style, raise it to the developer — don't silently change conventions.
 
-For detailed coding principles, read `references/coding-principles.md`.
+For detailed coding principles, read `_shared/references/coding-principles.md`.
 
 Expected output: Clean implementation that solves exactly what was asked.
 
@@ -158,6 +158,8 @@ Ask yourself: "Did I discover anything during this mission that would cost time 
 - The note would be a copy of what's already in the code
 
 For the `.notebook/` format specification, read `references/notebook-spec.md`.
+
+**Learning opportunity**: If the mission involved creating new files/modules, schema changes, architectural decisions, or unfamiliar patterns, and the `learning-opportunities` skill is available, consider offering a brief exercise. This helps the developer internalize what was built rather than passively consuming AI-generated code.
 
 Expected output: Updated `.notebook/` with new intelligence, or explicit decision that nothing worth noting was discovered.
 

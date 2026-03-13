@@ -3,7 +3,7 @@ name: feature-lifecycle
 description: Meta-skill that orchestrates the complete lifecycle of a feature — from Linear issue through specification, design, implementation, testing, review, merge, and deployment. Detects which phase a feature is in and invokes the appropriate skill. Resumes across sessions. Use when starting a new feature end-to-end, checking feature progress, or resuming work on an in-progress feature. Triggers on "start feature", "new feature", "feature lifecycle", "where are we on this feature", "resume feature", "what's next for this feature", "end-to-end", "full cycle". Do NOT use for individual phases (use the specific skill directly) or for project-level planning (use spec-driven).
 metadata:
   author: T2E
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Feature Lifecycle
@@ -31,7 +31,8 @@ Each phase maps to a skill:
 | TASKS | spec-driven + linear-pm | Create tasks.md, sync to Linear |
 | IMPLEMENT | code-navi | Build the feature |
 | TEST | testing-strategy | Write and run tests |
-| REVIEW | code-review | Pre-flight code review |
+| REVIEW | code-review + security-best-practices | Pre-flight code review + security scan |
+| DOCUMENT | docs-writer (optional) | Update docs if feature is user-facing |
 | MERGE | finalize-branch | PR, CI, merge |
 | DEPLOY | deploy-release | Release to production |
 | MONITOR | observability-setup | Verify in production |
@@ -73,9 +74,19 @@ Report current phase and what comes next.
    b. Invoke testing-strategy → TEST
    c. Update Linear issue status
 8. Invoke code-review → REVIEW
-9. Invoke finalize-branch → MERGE
-10. Invoke deploy-release → DEPLOY
-11. Invoke observability-setup → MONITOR (verify in production)
+   - If feature touches auth, sensitive data, or public APIs:
+     invoke security-best-practices for a targeted security scan
+9. Invoke docs-writer → DOCUMENT (optional)
+   - If feature is user-facing or changes API contracts:
+     update relevant docs (README, API docs, guides)
+   - If no docs impact, skip this step
+10. Invoke finalize-branch → MERGE
+11. Invoke deploy-release → DEPLOY
+    - Auto-deploy (Vercel/Netlify/merge-triggered): verify the
+      automatic deployment succeeded via deployment URL or checks
+    - Manual deploy: invoke deploy-release explicitly with
+      pre-deploy checklist, versioning, and release notes
+12. Invoke observability-setup → MONITOR (verify in production)
 ```
 
 ## Resuming a Feature
@@ -84,13 +95,26 @@ When resuming work across sessions:
 
 ```
 1. Detect phase (see above)
-2. Load context:
-   - .specs/project/STATE.md (session state from spec-driven)
-   - .notebook/ entries related to this feature (from code-navi)
-   - Linear issue status and comments
-3. Summarize current state to the developer
+2. Load context from all three persistence systems:
+   a. .specs/HANDOFF.md (if exists) — session-specific handoff with
+      completed/in-progress/pending items and blockers. Consume it
+      (it's a one-time snapshot from the last session pause).
+   b. .specs/project/STATE.md — persistent project state: decisions,
+      blockers, lessons learned across all sessions.
+   c. .notebook/INDEX.md — accumulated codebase intelligence: flows,
+      gotchas, corrections, patterns (from code-navi).
+   d. Linear issue status and comments — current tracking state.
+3. Summarize current state to the developer, noting:
+   - What was in progress when paused (from HANDOFF.md)
+   - Any active blockers (from STATE.md)
+   - Relevant technical context (from .notebook/)
 4. Continue from the detected phase
 ```
+
+**Persistence system roles** (don't confuse them):
+- `.specs/HANDOFF.md` = ephemeral session snapshot (consumed on resume, then removed)
+- `.specs/project/STATE.md` = long-lived project memory (decisions, blockers, preferences)
+- `.notebook/` = codebase intelligence (technical discoveries, patterns, gotchas)
 
 ## Graceful Degradation
 
@@ -115,7 +139,8 @@ Phase: [current phase] ■■■■■■□□□□ 60%
 ✓ TASKS    — 5 tasks, 3 done
 → IMPLEMENT — T4: working on auth middleware
 ○ TEST
-○ REVIEW
+○ REVIEW     (+ security scan if sensitive)
+○ DOCUMENT   (if user-facing)
 ○ MERGE
 ○ DEPLOY
 ○ MONITOR
@@ -126,7 +151,7 @@ Phase: [current phase] ■■■■■■□□□□ 60%
 After MONITOR is complete and the feature is verified in production, invoke `workspace-hygiene` Quick Sweep:
 
 ```
-12. Invoke workspace-hygiene → CLEANUP
+13. Invoke workspace-hygiene → CLEANUP
     - Archive .specs/features/<feature>/
     - Clean completed plans referencing this feature
     - Update ROADMAP.md marking feature as done
@@ -141,7 +166,9 @@ This skill is the hub. It delegates to:
 - **linear-project-management**: issue tracking throughout
 - **code-navi**: IMPLEMENT phase
 - **testing-strategy**: TEST phase
-- **code-review**: REVIEW phase
+- **code-review**: REVIEW phase (pre-flight)
+- **security-best-practices**: REVIEW phase (security scan for sensitive features)
+- **docs-writer**: DOCUMENT phase (optional, for user-facing features)
 - **finalize-branch**: MERGE phase
 - **deploy-release**: DEPLOY phase
 - **observability-setup**: MONITOR phase

@@ -1,10 +1,10 @@
 {
   "name": "observability-setup",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "origin": "tech-leads-club",
   "author": "T2E",
   "license": "CC-BY-4.0",
   "last_updated": "2026-03-13",
   "description": "Workflow for setting up application observability — logging, metrics, tracing, health checks, alerting.",
-  "recommends": ["Sentry MCP"]
+  "recommends": ["Sentry MCP", "performance-audit"]
 }
